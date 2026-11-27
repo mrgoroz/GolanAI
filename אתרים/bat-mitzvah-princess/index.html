@@ -9,6 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bellefair&family=Amatic+SC:wght@700&family=Assistant:wght@300;400;600;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/base.css">
+<script src="assets/a11y.js"></script>
 <style>
 :root{--bg:#1c0838;--fg:#fff7fb;--muted:#e0c4e8;--accent:#ff7ab8;--accent2:#b48cff;--card:rgba(255,255,255,.09);--line:rgba(255,214,236,.28);--font-d:"Bellefair",serif;--font-b:"Assistant",sans-serif;--radius:30px;--gold:#f7d27a}
 body{background:radial-gradient(1000px 800px at 50% 0%,#8a3fb8,transparent 70%),radial-gradient(900px 700px at 0% 70%,rgba(255,111,174,.35),transparent 70%),radial-gradient(800px 600px at 100% 40%,rgba(180,140,255,.3),transparent 70%),linear-gradient(180deg,#1c0838,#3a1060 50%,#5a1a6e)}
@@ -145,7 +146,7 @@ body.ready .hero .sub{opacity:1;transform:none}
         <h2 class="h2" data-reveal="up">צפו <em>בהזמנה</em></h2>
         <p class="lead" data-reveal="up" data-delay=".15">ערב של ריקודים, נצנצים והפתעות – ואתם מוזמנים.</p>
       </div>
-      <div class="phone" data-reveal="scale"><video src="assets/invite.mp4" controls playsinline preload="metadata" poster="assets/poster.jpg"></video></div>
+      <div class="phone" data-reveal="scale"><video aria-label="סרטון ההזמנה" src="assets/invite.mp4" controls playsinline preload="metadata" poster="assets/poster.jpg"></video></div>
     </div>
   </section>
 
@@ -169,6 +170,7 @@ body.ready .hero .sub{opacity:1;transform:none}
         <p class="lead" data-reveal="up">דרך הים 3, קיסריה · חניה עם שירות וואלה</p>
         <div class="btns" style="margin-top:30px" data-reveal="up" data-delay=".2">
           <a class="btn primary" data-waze target="_blank" rel="noopener">ניווט ב-Waze</a>
+          <a class="btn" data-whatsapp target="_blank" rel="noopener">ווטסאפ למארחים</a>
           <a class="btn" data-gmaps target="_blank" rel="noopener">Google Maps</a>
           <a class="btn" data-gcal target="_blank" rel="noopener">הוספה ליומן</a>
           <button class="btn" data-ics>קובץ .ics</button>
@@ -184,17 +186,18 @@ body.ready .hero .sub{opacity:1;transform:none}
       <h2 class="h2" data-reveal="up">מגיעים <em>לנשף?</em></h2>
       <div class="rsvp-card" data-reveal="scale">
         <form class="rsvp-form">
-          <div class="field"><label for="n">שם מלא</label><input id="n" name="name" required autocomplete="name"></div>
-          <div class="field"><label for="p">טלפון</label><input id="p" name="phone" type="tel" autocomplete="tel"></div>
-          <div class="choice">
+          <div class="field"><label for="n">שם מלא</label><input id="n" name="name" required autocomplete="name" aria-required="true"></div>
+          <div class="field"><label for="p">טלפון</label><input id="p" name="phone" type="tel" inputmode="tel" autocomplete="tel" required dir="ltr" placeholder="050-1234567" style="text-align:right"></div>
+          <fieldset class="choice"><legend>האם תגיעו?</legend>
             <label><input type="radio" name="coming" value="yes" checked><span>בטח שמגיעים ✨</span></label>
             <label><input type="radio" name="coming" value="no"><span>לא נוכל, מצטערים</span></label>
-          </div>
-          <div class="field"><label>כמה אורחים?</label><div class="stepper"><button type="button" data-d="-1" aria-label="פחות">−</button><input name="guests" value="2" inputmode="numeric" aria-label="מספר אורחים"><button type="button" data-d="1" aria-label="יותר">+</button></div></div>
+          </fieldset>
+          <div class="field guests-field"><label for="g">כמה אורחים?</label><div class="stepper"><button type="button" data-d="-1" aria-label="הפחתת מספר המגיעים">−</button><input id="g" name="guests" type="number" min="1" max="20" value="2" inputmode="numeric"><button type="button" data-d="1" aria-label="הוספת מגיע">+</button></div></div>
           <button class="btn primary" type="submit">שליחה</button>
-          <p class="demo-note">או בטלפון: 054-3216789</p>
+          <p class="form-status" role="status" aria-live="polite"></p>
+          <p class="demo-note">שאלות? <a data-whatsapp target="_blank" rel="noopener">כתבו לנו בווטסאפ</a> או התקשרו: <a href="tel:0543216789" dir="ltr">054-3216789</a></p>
         </form>
-        <div class="rsvp-done"><h3 class="goldtxt">תודה <span class="rsvp-name"></span>!</h3><p>נתראה בנשף ✨</p></div>
+        <div class="rsvp-done"><h3 class="goldtxt">תודה <span class="rsvp-name"></span>!</h3><p>נתראה בנשף ✨</p><a class="btn primary" data-rsvp-wa hidden target="_blank" rel="noopener">שליחת האישור בווטסאפ</a></div>
       </div>
     </div>
   </section>
@@ -202,7 +205,7 @@ body.ready .hero .sub{opacity:1;transform:none}
 <footer><p class="goldtxt" style="font-family:var(--font-d);font-size:56px">משפחת שמעוני</p><p class="hand" style="font-size:32px">מחכים לרקוד איתכם</p></footer>
 
 <script>
-window.SITE = { particles: 'sparkle', colors: ['#fff4d0', '#ffb0d6', '#ffffff', '#d9c2ff'], introMs: 2200,
+window.SITE = { whatsapp: '972543216789', particles: 'sparkle', colors: ['#fff4d0', '#ffb0d6', '#ffffff', '#d9c2ff'], introMs: 2200,
   event: { title: 'בת המצווה של מאיה', start: '2027-03-04T19:00:00', end: '2027-03-04T23:59:00', location: 'גני ארמון הוורדים, דרך הים 3, קיסריה', address: 'דרך הים 3, קיסריה' } };
 (() => {
   const NS = 'http://www.w3.org/2000/svg', mk = (t, a, p) => { const e = document.createElementNS(NS, t); for (const k in a) e.setAttribute(k, a[k]); p.appendChild(e); return e; };

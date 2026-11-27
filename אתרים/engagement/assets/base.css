@@ -1,5 +1,6 @@
 /* Shared base for invitation sites. Each site defines: --bg --fg --muted --accent --accent2 --card --line --font-d --font-b --radius --ease */
 *{margin:0;padding:0;box-sizing:border-box}
+[hidden]{display:none!important}
 html{scroll-behavior:smooth;overflow-x:clip;-webkit-text-size-adjust:100%}
 body{background:var(--bg);color:var(--fg);font-family:var(--font-b);line-height:1.6;overflow-x:clip;-webkit-font-smoothing:antialiased}
 body.loading{overflow:hidden}
@@ -98,6 +99,22 @@ body.ready .intro{pointer-events:none}
 .rsvp-done.show{opacity:1;transform:none;height:auto;pointer-events:auto;padding:30px 0}
 .rsvp-done h3{font-family:var(--font-d);font-size:clamp(40px,7vw,70px);line-height:1.1}
 .demo-note{font-size:13px;color:var(--muted);margin-top:6px}
+
+/* RSVP accessibility: fieldset group, errors, status, guests only when coming */
+fieldset.choice{border:0;padding:0;margin:0;min-width:0}
+fieldset.choice legend{font-size:14px;letter-spacing:1px;color:var(--muted);font-weight:700;margin-bottom:8px;width:100%}
+.guests-field[hidden]{display:none}
+.stepper input{-moz-appearance:textfield;appearance:textfield}
+.stepper input::-webkit-outer-spin-button,.stepper input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.stepper button{min-width:46px;min-height:46px}
+.field-error{color:#ff8a80;font-weight:700;font-size:15px;min-height:0}
+.field-error:empty{display:none}
+.field input[aria-invalid="true"]{border-color:#ff5c4d}
+.form-status{font-size:15px;font-weight:700;min-height:1.4em}
+.demo-note a{text-decoration:underline;text-underline-offset:3px;font-weight:700}
+.rsvp-done:focus{outline:0}
+.rsvp-done .btn{margin-top:18px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
 
 /* ---------- footer ---------- */
 footer{padding:80px 0 120px;text-align:center;color:var(--muted)}

@@ -6,6 +6,8 @@
 <title>הילה & בנימין — מתחתנים · 10.06.2027</title>
 <meta name="description" content="הילה ובנימין מתחתנים! יום חמישי, 10.06.2027, אחוזת הדקלים, קיסריה. אשרו הגעה באתר.">
 <meta name="theme-color" content="#0b1a16">
+<script>window.SITE = { whatsapp: '972521112233' };</script>
+<script src="assets/a11y.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bellefair&family=Assistant:wght@200;300;400;500;700&display=swap" rel="stylesheet">
@@ -209,6 +211,9 @@ footer .mono i{width:1px;height:46px;background:var(--g2)}
 .field input:focus,.field textarea:focus{border-color:var(--g2);box-shadow:0 0 0 4px rgba(201,164,92,.15)}
 .field textarea{resize:vertical;min-height:80px}
 .field.err input{border-color:#e07a6a}
+.field .lbl-like{display:block;font-size:14px;color:var(--muted);margin-bottom:8px;letter-spacing:.04em}
+.field-error{color:#ff9d8f;font-size:14px;font-weight:700;margin-top:6px}.field-error:empty{display:none}
+[hidden]{display:none!important}
 .seg{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .seg button{padding:15px;border-radius:14px;border:1px solid var(--line);font-size:17px;transition:.3s;background:rgba(0,0,0,.2)}
 .seg button.active{border-color:var(--g1);background:rgba(233,207,140,.14);color:var(--g1)}
@@ -239,8 +244,8 @@ footer .mono i{width:1px;height:46px;background:var(--g2)}
 </head>
 <body class="locked">
 
-<canvas id="sparkles"></canvas>
-<canvas id="confetti"></canvas>
+<canvas id="sparkles" aria-hidden="true"></canvas>
+<canvas id="confetti" aria-hidden="true"></canvas>
 
 <!-- envelope intro -->
 <div id="intro" role="dialog" aria-modal="true" aria-labelledby="intro-title">
@@ -284,7 +289,7 @@ footer .mono i{width:1px;height:46px;background:var(--g2)}
   </div>
 </div>
 
-<button id="music-btn" aria-label="הפעלת מוזיקה" inert><span class="bars"><i></i><i></i><i></i><i></i></span></button>
+<button id="music-btn" aria-label="הפעלת מוזיקה" aria-pressed="false" inert><span class="bars"><i></i><i></i><i></i><i></i></span></button>
 <audio id="music" src="assets/music.m4a" loop preload="auto"></audio>
 
 <main inert>
@@ -342,8 +347,9 @@ footer .mono i{width:1px;height:46px;background:var(--g2)}
           <div class="big gold-text">אחוזת הדקלים</div>
           <p>דרך הים 25, קיסריה</p>
           <div class="actions">
-            <a class="btn btn-ghost" target="_blank" rel="noopener" href="https://waze.com/ul?q=%D7%93%D7%A8%D7%9A%20%D7%94%D7%99%D7%9D%2025%20%D7%A7%D7%99%D7%A1%D7%A8%D7%99%D7%94&navigate=yes">Waze</a>
+            <a class="btn btn-ghost" target="_blank" rel="noopener" aria-label="ניווט ב-Waze לאחוזת הדקלים, דרך הים 25, קיסריה" href="https://waze.com/ul?q=%D7%93%D7%A8%D7%9A%20%D7%94%D7%99%D7%9D%2025%20%D7%A7%D7%99%D7%A1%D7%A8%D7%99%D7%94&navigate=yes">Waze</a>
             <a class="btn btn-ghost" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=%D7%93%D7%A8%D7%9A%20%D7%94%D7%99%D7%9D%2025%20%D7%A7%D7%99%D7%A1%D7%A8%D7%99%D7%94">Google Maps</a>
+            <a class="btn btn-ghost" data-whatsapp target="_blank" rel="noopener">ווטסאפ לזוג</a>
           </div>
         </div>
       </div>
@@ -372,9 +378,9 @@ footer .mono i{width:1px;height:46px;background:var(--g2)}
       <div class="rsvp-box reveal">
         <div class="eyebrow">נשמח לדעת</div>
         <h2 class="gold-text" style="font-family:var(--serif);font-weight:400;font-size:clamp(40px,7vw,60px);margin-top:10px">תגיעו לחגוג איתנו?</h2>
-        <p>אנא אשרו את הגעתכם עד 10.05.2027</p>
+        <p>אנא אשרו את הגעתכם עד 10.05.2027 · שאלות? <a data-whatsapp target="_blank" rel="noopener" style="text-decoration:underline">כתבו לנו בווטסאפ</a></p>
         <button class="btn btn-gold" data-rsvp>אישור הגעה</button>
-        <div class="rsvp-status" id="rsvp-status"></div>
+        <div class="rsvp-status" id="rsvp-status" role="status" aria-live="polite"></div>
       </div>
     </div>
   </section>
@@ -387,20 +393,20 @@ footer .mono i{width:1px;height:46px;background:var(--g2)}
 </main>
 
 <!-- RSVP modal -->
-<div class="modal" id="modal" aria-hidden="true">
+<div class="modal" id="modal" aria-hidden="true" inert>
   <div class="backdrop" data-close></div>
   <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="rsvp-title">
     <button class="close" data-close aria-label="סגירה">×</button>
     <form id="rsvp-form" novalidate>
       <h3 class="gold-text" id="rsvp-title">אישור הגעה</h3>
       <div class="sub">החתונה של הילה ובנימין · 10.06.2027</div>
-      <div class="field" id="f-name"><label for="name">שם מלא</label><input id="name" autocomplete="name" placeholder="לדוגמה: ישראל ישראלי"></div>
-      <div class="field" id="f-phone"><label for="phone">טלפון</label><input id="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="050-0000000" dir="ltr" style="text-align:right"></div>
-      <div class="field"><label>האם תגיעו?</label>
-        <div class="seg" id="attend"><button type="button" class="active" data-v="yes">בטח שנגיע! 🥂</button><button type="button" data-v="no">לצערנו לא</button></div>
+      <div class="field" id="f-name"><label for="name">שם מלא</label><input id="name" autocomplete="name" required aria-required="true" aria-describedby="name-err" placeholder="לדוגמה: ישראל ישראלי"><p class="field-error" id="name-err"></p></div>
+      <div class="field" id="f-phone"><label for="phone">טלפון</label><input id="phone" type="tel" inputmode="tel" autocomplete="tel" required aria-required="true" aria-describedby="phone-err" placeholder="050-0000000" dir="ltr" style="text-align:right"><p class="field-error" id="phone-err"></p></div>
+      <div class="field"><span class="lbl-like" id="attend-lbl">האם תגיעו?</span>
+        <div class="seg" id="attend" role="group" aria-labelledby="attend-lbl"><button type="button" class="active" data-v="yes" aria-pressed="true">בטח שנגיע! 🥂</button><button type="button" data-v="no" aria-pressed="false">לצערנו לא</button></div>
       </div>
-      <div class="field guests-field" id="guests-field"><label>מספר מגיעים</label>
-        <div class="stepper"><button type="button" id="minus" aria-label="פחות">−</button><output id="guests">2</output><button type="button" id="plus" aria-label="יותר">+</button></div>
+      <div class="field guests-field" id="guests-field"><span class="lbl-like" id="guests-lbl">מספר מגיעים</span>
+        <div class="stepper" role="group" aria-labelledby="guests-lbl"><button type="button" id="minus" aria-label="הפחתת מספר המגיעים">−</button><output id="guests" aria-live="polite" aria-label="מספר מגיעים">2</output><button type="button" id="plus" aria-label="הוספת מגיע">+</button></div>
       </div>
       <div class="field"><label for="note">ברכה לזוג (לא חובה)</label><textarea id="note" placeholder="מזל טוב!"></textarea></div>
       <button class="btn btn-gold" type="submit">שליחה</button>
@@ -409,6 +415,7 @@ footer .mono i{width:1px;height:46px;background:var(--g2)}
       <svg class="check" viewBox="0 0 100 100"><circle cx="50" cy="50" r="46"/><path d="M30 52 l14 14 l26 -30"/></svg>
       <h3 class="gold-text" id="success-title">תודה!</h3>
       <p id="success-msg"></p>
+      <a class="btn btn-gold" id="wa-send" hidden target="_blank" rel="noopener" style="margin-top:20px">שליחת האישור בווטסאפ</a>
       <button class="btn btn-ghost" data-close style="margin-top:24px;width:auto">סגירה</button>
     </div>
   </div>
@@ -421,8 +428,9 @@ const $ = (s) => document.querySelector(s);
 /* ---------- intro / envelope ---------- */
 const music = $('#music'), musicBtn = $('#music-btn');
 function setMusic(on){
-  if(on){ music.volume = .55; music.play().then(()=>musicBtn.classList.add('on')).catch(()=>{}); }
-  else { music.pause(); musicBtn.classList.remove('on'); }
+  const mark = (v) => { musicBtn.classList.toggle('on', v); musicBtn.setAttribute('aria-pressed', String(v)); musicBtn.setAttribute('aria-label', v ? 'השתקת המוזיקה' : 'הפעלת מוזיקה'); };
+  if(on){ music.volume = .55; music.play().then(()=>mark(true)).catch(()=>{}); }
+  else { music.pause(); mark(false); }
 }
 musicBtn.onclick = () => setMusic(music.paused);
 const intro = $('#intro');
@@ -462,6 +470,7 @@ $('#envelope-btn').onclick = openInvitation;
   size(); addEventListener('resize', size);
   (function loop(t){
     x.clearRect(0,0,W,H);
+    if(document.documentElement.classList.contains('a11y-still')){ requestAnimationFrame(loop); return; }
     for(const p of P){
       p.x += p.vx; p.y += p.vy; if(p.y < -10){ p.y = H + 10; p.x = Math.random()*W; }
       const a = .35 + .35*Math.sin(t/900 + p.ph);
@@ -511,30 +520,41 @@ $('#ics').onclick = () => {
 /* ---------- RSVP modal ---------- */
 const modal = $('#modal'), form = $('#rsvp-form'), success = $('#success');
 let attending = 'yes', guests = 2;
-function openModal(){ form.style.display=''; success.style.display='none'; modal.classList.add('show'); modal.setAttribute('aria-hidden','false'); setTimeout(()=>$('#name').focus(),300); }
-function closeModal(){ modal.classList.remove('show'); modal.setAttribute('aria-hidden','true'); }
+let lastFocus = null;
+function openModal(){ lastFocus = document.activeElement; form.style.display=''; success.style.display='none'; modal.inert = false; modal.classList.add('show'); modal.setAttribute('aria-hidden','false'); $('main').inert = true; setTimeout(()=>$('#name').focus(),300); }
+function closeModal(){ if(!modal.classList.contains('show')) return; modal.classList.remove('show'); modal.setAttribute('aria-hidden','true'); modal.inert = true; $('main').inert = false; if(lastFocus) lastFocus.focus(); }
+const WA = window.SITE.whatsapp, waLink = (t) => `https://wa.me/${WA}?text=${encodeURIComponent(t)}`;
+document.querySelectorAll('[data-whatsapp]').forEach(a => a.href = waLink('היי, יש לי שאלה לגבי החתונה של הילה ובנימין'));
 document.querySelectorAll('[data-rsvp]').forEach(b => b.onclick = openModal);
 modal.addEventListener('click', e => { if(e.target.closest('[data-close]')) closeModal(); });
 addEventListener('keydown', e => { if(e.key === 'Escape') closeModal(); });
 $('#attend').addEventListener('click', e => {
   const b = e.target.closest('button'); if(!b) return;
   attending = b.dataset.v;
-  $('#attend').querySelectorAll('button').forEach(x => x.classList.toggle('active', x === b));
-  $('#guests-field').classList.toggle('hide', attending === 'no');
+  $('#attend').querySelectorAll('button').forEach(x => { x.classList.toggle('active', x === b); x.setAttribute('aria-pressed', String(x === b)); });
+  $('#guests-field').classList.toggle('hide', attending === 'no'); $('#guests-field').hidden = attending === 'no';
 });
 $('#minus').onclick = () => { guests = Math.max(1, guests-1); $('#guests').textContent = guests; };
 $('#plus').onclick  = () => { guests = Math.min(12, guests+1); $('#guests').textContent = guests; };
 form.onsubmit = (e) => {
   e.preventDefault();
   const name = $('#name').value.trim(), phone = $('#phone').value.replace(/[^\d+]/g,'');
-  $('#f-name').classList.toggle('err', name.length < 2);
-  $('#f-phone').classList.toggle('err', phone.length < 9);
-  if(name.length < 2 || phone.length < 9) return;
+  const nameBad = name.length < 2, phoneBad = !/^(?:\+?972|0)(?:[23489]\d{7}|5\d{8}|7\d{8})$/.test(phone);
+  $('#f-name').classList.toggle('err', nameBad); $('#name').setAttribute('aria-invalid', String(nameBad));
+  $('#f-phone').classList.toggle('err', phoneBad); $('#phone').setAttribute('aria-invalid', String(phoneBad));
+  $('#name-err').textContent = nameBad ? 'נא למלא שם מלא' : '';
+  $('#phone-err').textContent = phoneBad ? (phone ? 'מספר הטלפון לא תקין, לדוגמה 050-1234567' : 'נא למלא מספר טלפון') : '';
+  if(nameBad){ $('#name').focus(); return; } if(phoneBad){ $('#phone').focus(); return; }
   const entry = {name, phone, attending, guests: attending==='yes'?guests:0, note: $('#note').value.trim(), at: new Date().toISOString()};
   // Demo site: the response is stored locally in the browser. Connect to a backend / Google Sheet for production.
   const all = JSON.parse(localStorage.getItem('rsvp-hila-binyamin') || '[]'); all.push(entry);
   localStorage.setItem('rsvp-hila-binyamin', JSON.stringify(all));
+  const waText = ['אישור הגעה – החתונה של הילה ובנימין', `שם: ${name}`, `טלפון: ${phone}`,
+    attending === 'yes' ? `מגיעים: כן, ${guests} ${guests===1?'אורח':'אורחים'}` : 'מגיעים: לא', entry.note ? `ברכה: ${entry.note}` : ''].filter(Boolean).join('\n');
+  window.open(waLink(waText), '_blank', 'noopener');
+  $('#wa-send').href = waLink(waText); $('#wa-send').hidden = false;
   form.style.display = 'none'; success.style.display = 'block';
+  success.setAttribute('role','status'); success.tabIndex = -1; setTimeout(() => success.focus(), 50);
   const first = name.split(' ')[0];
   if(attending === 'yes'){
     $('#success-title').textContent = `תודה ${first}!`;
@@ -550,6 +570,7 @@ form.onsubmit = (e) => {
 
 /* ---------- gold confetti ---------- */
 function confetti(){
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches || document.documentElement.classList.contains('a11y-still')) return;
   const c = $('#confetti'), x = c.getContext('2d');
   c.width = innerWidth; c.height = innerHeight;
   const cols = ['#f3dfa8','#c9a45c','#fff3cf','#e9cf8c','#f6efe3'];

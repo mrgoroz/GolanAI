@@ -9,6 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300;500;900&family=Amatic+SC:wght@700&family=Assistant:wght@300;400;600;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/base.css">
+<script src="assets/a11y.js"></script>
 <style>
 :root{--bg:#fbf3e4;--fg:#4a2c17;--muted:#8a6a50;--accent:#b46a2c;--accent2:#d9a04e;--card:rgba(255,250,240,.75);--line:rgba(164,97,42,.22);--font-d:"Frank Ruhl Libre",serif;--font-b:"Assistant",sans-serif;--radius:26px;--sage:#7d8a62}
 body{background:radial-gradient(900px 700px at 80% 0%,#fff8ea,transparent 70%),radial-gradient(800px 700px at 0% 60%,#f3dfbd,transparent 70%),var(--bg)}
@@ -141,7 +142,7 @@ body.ready .hero .bride{clip-path:inset(0 0 0 0)}
         <h2 class="h2" data-reveal="up">בואו <em>להתברך ולברך</em></h2>
         <p class="lead" data-reveal="up" data-delay=".15">ערב נשי, חם ומרגש לפני החופה – עם בצק, תפילות, ברכות ושירה.</p>
       </div>
-      <div class="phone" data-reveal="right"><video src="assets/invite.mp4" controls playsinline preload="metadata" poster="assets/poster.jpg"></video></div>
+      <div class="phone" data-reveal="right"><video aria-label="סרטון ההזמנה" src="assets/invite.mp4" controls playsinline preload="metadata" poster="assets/poster.jpg"></video></div>
     </div>
   </section>
 
@@ -180,6 +181,7 @@ body.ready .hero .bride{clip-path:inset(0 0 0 0)}
         <p class="lead" data-reveal="up">רחוב הזית 7, מודיעין · קומת קרקע, עם גינה</p>
         <div class="btns" style="margin-top:30px" data-reveal="up" data-delay=".2">
           <a class="btn primary" data-waze target="_blank" rel="noopener">ניווט ב-Waze</a>
+          <a class="btn" data-whatsapp target="_blank" rel="noopener">ווטסאפ למארחים</a>
           <a class="btn" data-gmaps target="_blank" rel="noopener">Google Maps</a>
           <a class="btn" data-gcal target="_blank" rel="noopener">הוספה ליומן</a>
           <button class="btn" data-ics>קובץ .ics</button>
@@ -195,17 +197,19 @@ body.ready .hero .bride{clip-path:inset(0 0 0 0)}
       <h2 class="h2" data-reveal="up">נשמור לך <em>מקום</em></h2>
       <div class="rsvp-card" data-reveal="up">
         <form class="rsvp-form">
-          <div class="field"><label for="n">שם</label><input id="n" name="name" required autocomplete="name"></div>
-          <div class="field"><label for="p">טלפון</label><input id="p" name="phone" type="tel" autocomplete="tel"></div>
-          <div class="choice">
+          <div class="field"><label for="n">שם</label><input id="n" name="name" required autocomplete="name" aria-required="true"></div>
+          <div class="field"><label for="p">טלפון</label><input id="p" name="phone" type="tel" inputmode="tel" autocomplete="tel" required dir="ltr" placeholder="050-1234567" style="text-align:right"></div>
+          <fieldset class="choice"><legend>האם תגיעו?</legend>
             <label><input type="radio" name="coming" value="yes" checked><span>מגיעה בשמחה</span></label>
             <label><input type="radio" name="coming" value="no"><span>לא אוכל, מברכת מרחוק</span></label>
-          </div>
+          </fieldset>
+          <div class="field guests-field"><label for="g">כמה תגיעו?</label><div class="stepper"><button type="button" data-d="-1" aria-label="הפחתת מספר המגיעים">−</button><input id="g" name="guests" type="number" min="1" max="20" value="2" inputmode="numeric"><button type="button" data-d="1" aria-label="הוספת מגיע">+</button></div></div>
           <div class="field"><label for="b">ברכה לכלה (לא חובה)</label><textarea id="b" name="blessing" rows="2"></textarea></div>
           <button class="btn primary" type="submit">שליחה</button>
-          <p class="demo-note">או בטלפון: 053-9876543</p>
+          <p class="form-status" role="status" aria-live="polite"></p>
+          <p class="demo-note">שאלות? <a data-whatsapp target="_blank" rel="noopener">כתבו לנו בווטסאפ</a> או התקשרו: <a href="tel:0539876543" dir="ltr">053-9876543</a></p>
         </form>
-        <div class="rsvp-done"><h3 class="crust">תודה <span class="rsvp-name"></span>!</h3><p>מחכות לך עם סינר וחיוך</p></div>
+        <div class="rsvp-done"><h3 class="crust">תודה <span class="rsvp-name"></span>!</h3><p>מחכות לך עם סינר וחיוך</p><a class="btn primary" data-rsvp-wa hidden target="_blank" rel="noopener">שליחת האישור בווטסאפ</a></div>
       </div>
     </div>
   </section>
@@ -217,7 +221,7 @@ body.ready .hero .bride{clip-path:inset(0 0 0 0)}
 <footer><p class="hand" style="font-size:46px">אורית והבנות</p><p>מחכות לראותכן</p></footer>
 
 <script>
-window.SITE = { particles: 'flour', colors: ['#ffffff', '#f3e2c4', '#e9c98b', '#b46a2c'], introMs: 2200,
+window.SITE = { whatsapp: '972539876543', particles: 'flour', colors: ['#ffffff', '#f3e2c4', '#e9c98b', '#b46a2c'], introMs: 2200,
   event: { title: 'הפרשת חלה לכבוד שירה', start: '2026-12-15T18:30:00', end: '2026-12-15T21:30:00', location: 'בית משפחת אברהם, רחוב הזית 7, מודיעין', address: 'רחוב הזית 7, מודיעין' } };
 (() => {
   const NS = 'http://www.w3.org/2000/svg', mk = (t, a, p) => { const e = document.createElementNS(NS, t); for (const k in a) e.setAttribute(k, a[k]); p.appendChild(e); return e; };

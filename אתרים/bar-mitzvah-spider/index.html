@@ -9,6 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Karantina:wght@400;700&family=Rubik:wght@400;500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/base.css">
+<script src="assets/a11y.js"></script>
 <style>
 :root{--bg:#060b24;--fg:#fff6ec;--muted:#aab4e6;--accent:#e3122d;--accent2:#1a4fd8;--card:rgba(255,255,255,.06);--line:rgba(255,255,255,.16);--font-d:"Karantina",sans-serif;--font-b:"Rubik",sans-serif;--ink:#0a0a14;--yellow:#ffd64a;--radius:6px}
 body{background:radial-gradient(1200px 900px at 50% -10%,#1b2a7a,transparent 70%),linear-gradient(180deg,#060b24,#0b1446 60%,#2a0a26)}
@@ -180,7 +181,7 @@ body.ready .hero .sub{opacity:1}
         <h2 class="h2 comic stroke" data-reveal="up">צפו <em>בהזמנה</em></h2>
         <p class="lead" data-reveal="up" data-delay=".15">גיבור העל שלנו גדל – והוא מזמין אתכם להצטרף לחגיגה הכי גדולה בעיר.</p>
       </div>
-      <div class="phone" data-reveal="right"><video src="assets/invite.mp4" controls playsinline preload="metadata" poster="assets/poster.jpg"></video></div>
+      <div class="phone" data-reveal="right"><video aria-label="סרטון ההזמנה" src="assets/invite.mp4" controls playsinline preload="metadata" poster="assets/poster.jpg"></video></div>
     </div>
   </section>
 
@@ -204,6 +205,7 @@ body.ready .hero .sub{opacity:1}
         <p class="lead" data-reveal="up">רחוב הברזל 12, ראשון לציון · חניה חינם במקום</p>
         <div class="btns" style="margin-top:30px" data-reveal="up" data-delay=".2">
           <a class="btn primary" data-waze target="_blank" rel="noopener">ניווט ב-Waze</a>
+          <a class="btn" data-whatsapp target="_blank" rel="noopener">ווטסאפ למארחים</a>
           <a class="btn" data-gmaps target="_blank" rel="noopener">Google Maps</a>
           <a class="btn" data-gcal target="_blank" rel="noopener">הוספה ליומן גוגל</a>
           <button class="btn" data-ics>קובץ יומן (.ics)</button>
@@ -222,17 +224,18 @@ body.ready .hero .sub{opacity:1}
       <h2 class="h2 comic stroke" data-reveal="up">מצטרפים <em>למשימה?</em></h2>
       <div class="rsvp-card" data-reveal="scale">
         <form class="rsvp-form">
-          <div class="field"><label for="n">שם מלא</label><input id="n" name="name" required autocomplete="name"></div>
-          <div class="field"><label for="p">טלפון</label><input id="p" name="phone" type="tel" autocomplete="tel"></div>
-          <div class="choice">
+          <div class="field"><label for="n">שם מלא</label><input id="n" name="name" required autocomplete="name" aria-required="true"></div>
+          <div class="field"><label for="p">טלפון</label><input id="p" name="phone" type="tel" inputmode="tel" autocomplete="tel" required dir="ltr" placeholder="050-1234567" style="text-align:right"></div>
+          <fieldset class="choice"><legend>האם תגיעו?</legend>
             <label><input type="radio" name="coming" value="yes" checked><span>אני בפנים! 🕷️</span></label>
             <label><input type="radio" name="coming" value="no"><span>לא אוכל להגיע</span></label>
-          </div>
-          <div class="field"><label>כמה גיבורים מגיעים?</label><div class="stepper"><button type="button" data-d="-1" aria-label="פחות">−</button><input name="guests" value="2" inputmode="numeric" aria-label="מספר אורחים"><button type="button" data-d="1" aria-label="יותר">+</button></div></div>
+          </fieldset>
+          <div class="field guests-field"><label for="g">כמה גיבורים מגיעים?</label><div class="stepper"><button type="button" data-d="-1" aria-label="הפחתת מספר המגיעים">−</button><input id="g" name="guests" type="number" min="1" max="20" value="2" inputmode="numeric"><button type="button" data-d="1" aria-label="הוספת מגיע">+</button></div></div>
           <button class="btn primary" type="submit">שליחת אישור</button>
-          <p class="demo-note">אפשר גם לאשר בטלפון: 050-1234567</p>
+          <p class="form-status" role="status" aria-live="polite"></p>
+          <p class="demo-note">שאלות? <a data-whatsapp target="_blank" rel="noopener">כתבו לנו בווטסאפ</a> או התקשרו: <a href="tel:0501234567" dir="ltr">050-1234567</a></p>
         </form>
-        <div class="rsvp-done"><h3 class="comic">תודה <span class="rsvp-name"></span>!</h3><p>נתראה במשימה 🕸️</p></div>
+        <div class="rsvp-done"><h3 class="comic">תודה <span class="rsvp-name"></span>!</h3><p>נתראה במשימה 🕸️</p><a class="btn primary" data-rsvp-wa hidden target="_blank" rel="noopener">שליחת האישור בווטסאפ</a></div>
       </div>
     </div>
   </section>
@@ -241,7 +244,7 @@ body.ready .hero .sub{opacity:1}
 <footer><p class="comic" style="font-size:54px;color:var(--yellow)">משפחת לוי</p><p>מחכים לחגוג איתכם</p></footer>
 
 <script>
-window.SITE = { particles: 'web', colors: ['#e8eeff', '#e3122d', '#1a4fd8', '#ffd64a'], introMs: 2300,
+window.SITE = { whatsapp: '972501234567', particles: 'web', colors: ['#e8eeff', '#e3122d', '#1a4fd8', '#ffd64a'], introMs: 2300,
   event: { title: 'בר המצווה של איתי', start: '2027-01-21T19:30:00', end: '2027-01-21T23:59:00', location: 'אולמי מטרופוליס, רחוב הברזל 12, ראשון לציון', address: 'רחוב הברזל 12, ראשון לציון' } };
 // intro web + skyline (built once, decorative)
 (() => {

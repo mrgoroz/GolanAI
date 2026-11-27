@@ -1,5 +1,12 @@
-/* Invitation site engine — scroll reveals, pinned story, countdown, music, calendar, RSVP, themed particles.
-   Configure with window.SITE = { event:{title,start,end,location,address}, particles:'web'|'rain'|'sparkle'|'flour'|'bubbles'|'stars', colors:[...], introMs } */
+/* Invitation site engine — scroll reveals, pinned story, countdown, music, calendar, Waze, WhatsApp, RSVP, themed particles.
+   Canonical copy: tools/site-kit/engine.js (copy into each site's assets/). Pair with assets/a11y.js.
+   Configure with window.SITE = {
+     event:{title,start,end,location,address, lat?, lng?},   // lat/lng → exact Waze pin
+     whatsapp:'9725XXXXXXXX',          // host number, international format, digits only
+     whatsappText?:'...',              // prefilled text for the [data-whatsapp] button
+     rsvp?:{ endpoint:'https://script.google.com/...' },  // optional: POST answers to a Google Sheet
+     rsvpNoText?:'...',                // thank-you line shown when the guest is not coming
+     particles:'web'|'rain'|'sparkle'|'flour'|'bubbles'|'stars', colors:[...], introMs } */
 (() => {
   const S = window.SITE || {};
   const $ = (q, r = document) => r.querySelector(q), $$ = (q, r = document) => [...r.querySelectorAll(q)];
@@ -73,9 +80,11 @@
   const cd = $('[data-countdown]');
   if (cd) {
     const target = new Date(cd.dataset.countdown).getTime();
+    cd.setAttribute('role', 'timer'); cd.setAttribute('aria-live', 'off'); $$('.cd-box', cd).forEach(b => b.setAttribute('aria-hidden', 'true'));
     const set = (k, v) => { const el = $(`[data-cd="${k}"]`, cd); if (el && el.textContent !== String(v).padStart(2, '0')) { el.textContent = String(v).padStart(2, '0'); el.classList.remove('tick'); void el.offsetWidth; el.classList.add('tick'); } };
     const tick = () => { let d = Math.max(0, target - Date.now()); const days = Math.floor(d / 864e5); d -= days * 864e5; const h = Math.floor(d / 36e5); d -= h * 36e5; const m = Math.floor(d / 6e4); d -= m * 6e4; const s = Math.floor(d / 1e3);
-      set('d', days); set('h', h); set('m', m); set('s', s); };
+      set('d', days); set('h', h); set('m', m); set('s', s);
+      const lbl = `עד האירוע: ${days} ימים, ${h} שעות ו-${m} דקות`; if (cd.getAttribute('aria-label') !== lbl) cd.setAttribute('aria-label', lbl); };
     tick(); setInterval(tick, 1000);
   }
 
@@ -83,7 +92,9 @@
   const mb = $('.music-btn');
   if (mb) {
     const a = new Audio('assets/music.m4a'); a.loop = true; a.volume = .7;
-    mb.addEventListener('click', () => { if (a.paused) { a.play(); mb.classList.add('playing'); } else { a.pause(); mb.classList.remove('playing'); } });
+    mb.setAttribute('aria-pressed', 'false');
+    const setMb = on => { mb.classList.toggle('playing', on); mb.setAttribute('aria-pressed', String(on)); mb.setAttribute('aria-label', on ? 'השתקת המוזיקה' : 'הפעלת מוזיקה'); };
+    mb.addEventListener('click', () => { if (a.paused) { a.play().then(() => setMb(true)).catch(() => {}); } else { a.pause(); setMb(false); } });
   }
 
   /* ---------- calendar + navigation ---------- */
@@ -96,23 +107,74 @@
       const l = document.createElement('a'); l.href = url; l.download = 'invite.ics'; l.click(); setTimeout(() => URL.revokeObjectURL(url), 1000);
     }));
     $$('[data-gcal]').forEach(b => { b.href = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(E.title)}&dates=${fmt(E.start)}/${fmt(E.end)}&ctz=Asia/Jerusalem&location=${encodeURIComponent(E.location)}`; });
-    $$('[data-waze]').forEach(b => { b.href = `https://waze.com/ul?q=${encodeURIComponent(E.address)}&navigate=yes`; });
+    $$('[data-waze]').forEach(b => { b.href = E.lat != null && E.lng != null ? `https://waze.com/ul?ll=${E.lat},${E.lng}&navigate=yes` : `https://waze.com/ul?q=${encodeURIComponent(E.address)}&navigate=yes`;
+      if (!b.getAttribute('aria-label')) b.setAttribute('aria-label', `ניווט ב-Waze אל ${E.location}`); });
     $$('[data-gmaps]').forEach(b => { b.href = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(E.address)}`; });
   }
 
-  /* ---------- RSVP (demo: stored locally) ---------- */
+  /* ---------- WhatsApp ---------- */
+  const wa = (text) => `https://wa.me/${S.whatsapp}?text=${encodeURIComponent(text)}`;
+  if (S.whatsapp) $$('[data-whatsapp]').forEach(b => { b.href = wa(S.whatsappText || `היי, יש לי שאלה לגבי ${E ? E.title : 'האירוע'}`);
+    b.target = '_blank'; b.rel = 'noopener'; if (!b.getAttribute('aria-label')) b.setAttribute('aria-label', 'שליחת הודעת ווטסאפ למארחים'); });
+  else $$('[data-whatsapp]').forEach(b => { b.hidden = true; });
+
+  /* ---------- RSVP: name, phone, coming yes/no, guests (only when coming) ----------
+     Delivery: SITE.rsvp.endpoint (POST, e.g. Google Apps Script → Sheet), otherwise WhatsApp to SITE.whatsapp.
+     Always kept in localStorage too. */
   const form = $('.rsvp-form');
   if (form) {
-    $$('.stepper', form).forEach(st => { const inp = $('input', st);
-      $$('button', st).forEach(b => b.addEventListener('click', () => { inp.value = clamp(+inp.value + (+b.dataset.d), 0, 20); })); });
-    form.addEventListener('submit', e => {
+    form.noValidate = true;
+    const status = $('.form-status', form) || (() => { const p = document.createElement('p'); p.className = 'form-status'; p.setAttribute('role', 'status'); p.setAttribute('aria-live', 'polite'); form.appendChild(p); return p; })();
+    const gField = $('.guests-field', form), gInp = $('input[name="guests"]', form);
+    const isComing = () => (form.elements.coming ? form.elements.coming.value : 'yes') !== 'no';
+    const syncGuests = () => { if (!gField) return; const on = isComing(); gField.hidden = !on; if (gInp) gInp.disabled = !on; };
+    $$('input[name="coming"]', form).forEach(r => r.addEventListener('change', syncGuests)); syncGuests();
+    $$('.stepper', form).forEach(st => { const inp = $('input', st), lo = +(inp.min || 1), hi = +(inp.max || 20);
+      $$('button', st).forEach(b => b.addEventListener('click', () => { inp.value = clamp((+inp.value || lo) + (+b.dataset.d), lo, hi); status.textContent = `מספר המגיעים: ${inp.value}`; })); });
+
+    const err = (inp, msg) => {
+      const f = inp.closest('.field'); let e = f && $('.field-error', f);
+      if (!e && f) { e = document.createElement('p'); e.className = 'field-error'; e.id = inp.id + '-err'; f.appendChild(e); }
+      inp.setAttribute('aria-invalid', msg ? 'true' : 'false');
+      if (e) { e.textContent = msg || ''; if (msg) inp.setAttribute('aria-describedby', e.id); else inp.removeAttribute('aria-describedby'); }
+      return !msg;
+    };
+    const phoneOk = v => /^(?:\+?972|0)(?:[23489]\d{7}|5\d{8}|7\d{8})$/.test(v.replace(/[\s\-().]/g, ''));
+
+    form.addEventListener('submit', async e => {
       e.preventDefault();
-      const data = Object.fromEntries(new FormData(form));
-      try { localStorage.setItem('rsvp:' + location.pathname, JSON.stringify({ ...data, at: new Date().toISOString() })); } catch (_) {}
-      form.classList.add('sent');
+      const nm = form.elements.name, ph = form.elements.phone;
+      const ok = [
+        err(nm, nm.value.trim().length < 2 ? 'נא למלא שם (לפחות 2 תווים)' : ''),
+        err(ph, !ph.value.trim() ? 'נא למלא מספר טלפון' : !phoneOk(ph.value) ? 'מספר הטלפון לא תקין, לדוגמה 050-1234567' : ''),
+        !gInp || !isComing() || err(gInp, +gInp.value >= 1 && +gInp.value <= +(gInp.max || 20) ? '' : `נא לבחור בין 1 ל-${gInp.max || 20} מגיעים`)
+      ].every(Boolean);
+      if (!ok) { status.textContent = 'יש לתקן את השדות המסומנים'; $('[aria-invalid="true"]', form).focus(); return; }
+
+      const coming = isComing();
+      const data = { ...Object.fromEntries(new FormData(form)), coming: coming ? 'yes' : 'no', guests: coming ? String(+(gInp && gInp.value) || 1) : '0', event: E ? E.title : document.title, at: new Date().toISOString() };
+      try { localStorage.setItem('rsvp:' + location.pathname, JSON.stringify(data)); } catch (_) {}
+
+      const lines = [`אישור הגעה – ${data.event}`, `שם: ${data.name}`, `טלפון: ${data.phone}`, coming ? `מגיעים: כן, ${data.guests} ${data.guests === '1' ? 'אורח' : 'אורחים'}` : 'מגיעים: לא'];
+      if (data.blessing) lines.push(`ברכה: ${data.blessing}`);
+      const waUrl = S.whatsapp ? wa(lines.join('\n')) : '';
+      const viaEndpoint = !!(S.rsvp && S.rsvp.endpoint);
+
+      if (viaEndpoint) {
+        status.textContent = 'שולח…';
+        try { await fetch(S.rsvp.endpoint, { method: 'POST', mode: 'no-cors', body: new URLSearchParams(data) }); }
+        catch (_) { status.textContent = 'השליחה נכשלה – נסו שוב או צרו קשר בטלפון'; return; }
+      } else if (waUrl) { window.open(waUrl, '_blank', 'noopener'); }
+
+      form.classList.add('sent'); form.setAttribute('aria-hidden', 'true'); form.inert = true;
       const msg = $('.rsvp-done', form.parentElement);
-      if (msg) { const nm = $('.rsvp-name', msg); if (nm) nm.textContent = data.name || ''; msg.classList.add('show'); }
-      burst(innerWidth / 2, innerHeight / 2, 120);
+      if (msg) {
+        const n = $('.rsvp-name', msg); if (n) n.textContent = data.name || '';
+        if (!coming) { const p = $('p', msg); if (p) p.textContent = S.rsvpNoText || 'תודה שעדכנתם – נתגעגע אליכם!'; }
+        const wb = $('[data-rsvp-wa]', msg); if (wb && waUrl && !viaEndpoint) { wb.href = waUrl; wb.hidden = false; }
+        msg.setAttribute('role', 'status'); msg.tabIndex = -1; msg.classList.add('show'); msg.focus({ preventScroll: true });
+      }
+      if (coming) burst(innerWidth / 2, innerHeight / 2, 120);
     });
   }
 
@@ -127,13 +189,14 @@
   const spawn = (init) => ({ x: R() * W, y: init ? R() * H : (type === 'bubbles' || type === 'flour' ? H + 20 : -20), r: (type === 'rain' ? 1 : 1 + R() * 3) * DPR, v: (type === 'rain' ? 14 + R() * 10 : .3 + R() * 1.1) * DPR, s: R() * 6.28, c: cols[(R() * cols.length) | 0], a: .3 + R() * .7 });
   for (let i = 0; i < count; i++) P.push(spawn(true));
   const B = []; // confetti bursts
-  function burst(x, y, n) { if (reduce) return; for (let i = 0; i < n; i++) { const a = R() * 6.28, sp = (4 + R() * 10) * DPR; B.push({ x: x * DPR, y: y * DPR, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp - 6 * DPR, r: (4 + R() * 6) * DPR, c: cols[(R() * cols.length) | 0], rot: R() * 6, vr: R() * .3 - .15, life: 1 }); } }
+  function burst(x, y, n) { if (reduce || document.documentElement.classList.contains('a11y-still')) return; for (let i = 0; i < n; i++) { const a = R() * 6.28, sp = (4 + R() * 10) * DPR; B.push({ x: x * DPR, y: y * DPR, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp - 6 * DPR, r: (4 + R() * 6) * DPR, c: cols[(R() * cols.length) | 0], rot: R() * 6, vr: R() * .3 - .15, life: 1 }); } }
   window.inviteBurst = burst;
   $$('[data-burst]').forEach(b => b.addEventListener('click', e => burst(e.clientX, e.clientY, 60)));
   let mx = -999, my = -999; addEventListener('pointermove', e => { mx = e.clientX * DPR; my = e.clientY * DPR; if (type === 'sparkle' && !reduce && R() > .5) P.push({ ...spawn(true), x: mx, y: my, trail: 1, v: .6 * DPR }); }, { passive: true });
   const star = (x, y, r) => { ctx.beginPath(); ctx.moveTo(x, y - r); ctx.quadraticCurveTo(x, y, x + r, y); ctx.quadraticCurveTo(x, y, x, y + r); ctx.quadraticCurveTo(x, y, x - r, y); ctx.quadraticCurveTo(x, y, x, y - r); ctx.fill(); };
   let t = 0, lastY = scrollY;
   (function loop() {
+    if (document.documentElement.classList.contains('a11y-still')) { ctx.clearRect(0, 0, W, H); B.length = 0; return void setTimeout(() => requestAnimationFrame(loop), 500); }
     t += .016; ctx.clearRect(0, 0, W, H);
     const dy = (scrollY - lastY) * DPR; lastY = scrollY;
     if (type === 'web') { // web strands from the top corners that stretch with scroll & pointer

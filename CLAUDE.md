@@ -16,6 +16,14 @@ Hebrew event invitations: sites in `אתרים/<event>/` and HyperFrames videos 
   only if nothing suitable exists, and say so.
 - No identifiable people, logos, or trademarked characters in downloaded media.
 
+## Every site: accessible + Waze + WhatsApp + RSVP
+
+- Every site in `אתרים/` must be accessible (♿ menu, accessibility statement, keyboard, screen
+  readers), with a **Waze** button to the venue, a **WhatsApp** button to the hosts, and an
+  **RSVP** form: name, phone, coming yes/no, and number of guests (only when coming).
+- Follow the `/site-essentials` skill. The shared code lives in `tools/site-kit/` (edit there, then
+  copy to every site's `assets/`). Run `python3 tools/check_site_essentials.py` until it prints OK.
+
 ## Text must fit — nothing outside its card or the frame
 
 - Every text element (dates, names, venues) must sit fully inside its card/bubble/pill and the

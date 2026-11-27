@@ -9,6 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Varela+Round&family=Secular+One&family=Assistant:wght@300;400;600;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/base.css">
+<script src="assets/a11y.js"></script>
 <style>
 :root{--bg:#eaf6ff;--fg:#123a6b;--muted:#5679a3;--accent:#2f7dd6;--accent2:#6fb6ff;--card:rgba(255,255,255,.78);--line:rgba(47,125,214,.18);--font-d:"Secular One",sans-serif;--font-b:"Assistant",sans-serif;--radius:34px;--gold:#f2c14e}
 body{background:linear-gradient(180deg,#9fd3ff 0%,#cfeaff 18%,#eef8ff 45%,#fff 70%,#eaf6ff 100%)}
@@ -156,7 +157,7 @@ body.ready .hero .parents{opacity:1}
         <h2 class="h2" data-reveal="up">הקטן שלנו <em>מזמין אתכם</em></h2>
         <p class="lead" data-reveal="up" data-delay=".15">צפו בהזמנה המלאה ושתפו את השמחה.</p>
       </div>
-      <div class="phone" data-reveal="scale"><video src="assets/invite.mp4" controls playsinline preload="metadata" poster="assets/poster.jpg"></video></div>
+      <div class="phone" data-reveal="scale"><video aria-label="סרטון ההזמנה" src="assets/invite.mp4" controls playsinline preload="metadata" poster="assets/poster.jpg"></video></div>
     </div>
   </section>
 
@@ -184,6 +185,7 @@ body.ready .hero .parents{opacity:1}
         <p class="lead" data-reveal="up">רחוב הרב קוק 15, ירושלים · חניה ברחובות הסמוכים</p>
         <div class="btns" style="margin-top:30px" data-reveal="up" data-delay=".2">
           <a class="btn primary" data-waze target="_blank" rel="noopener">ניווט ב-Waze</a>
+          <a class="btn" data-whatsapp target="_blank" rel="noopener">ווטסאפ למארחים</a>
           <a class="btn" data-gmaps target="_blank" rel="noopener">Google Maps</a>
           <a class="btn" data-gcal target="_blank" rel="noopener">הוספה ליומן</a>
           <button class="btn" data-ics>קובץ .ics</button>
@@ -199,17 +201,18 @@ body.ready .hero .parents{opacity:1}
       <h2 class="h2" data-reveal="up">תגיעו <em>לשמוח איתנו?</em></h2>
       <div class="rsvp-card" data-reveal="up">
         <form class="rsvp-form">
-          <div class="field"><label for="n">שם מלא</label><input id="n" name="name" required autocomplete="name"></div>
-          <div class="field"><label for="p">טלפון</label><input id="p" name="phone" type="tel" autocomplete="tel"></div>
-          <div class="choice">
+          <div class="field"><label for="n">שם מלא</label><input id="n" name="name" required autocomplete="name" aria-required="true"></div>
+          <div class="field"><label for="p">טלפון</label><input id="p" name="phone" type="tel" inputmode="tel" autocomplete="tel" required dir="ltr" placeholder="050-1234567" style="text-align:right"></div>
+          <fieldset class="choice"><legend>האם תגיעו?</legend>
             <label><input type="radio" name="coming" value="yes" checked><span>נגיע בשמחה</span></label>
             <label><input type="radio" name="coming" value="no"><span>נשלח מזל טוב מרחוק</span></label>
-          </div>
-          <div class="field"><label>כמה תהיו?</label><div class="stepper"><button type="button" data-d="-1" aria-label="פחות">−</button><input name="guests" value="2" inputmode="numeric" aria-label="מספר אורחים"><button type="button" data-d="1" aria-label="יותר">+</button></div></div>
+          </fieldset>
+          <div class="field guests-field"><label for="g">כמה תהיו?</label><div class="stepper"><button type="button" data-d="-1" aria-label="הפחתת מספר המגיעים">−</button><input id="g" name="guests" type="number" min="1" max="20" value="2" inputmode="numeric"><button type="button" data-d="1" aria-label="הוספת מגיע">+</button></div></div>
           <button class="btn primary" type="submit">שליחה</button>
-          <p class="demo-note">או בטלפון: 058-1357924</p>
+          <p class="form-status" role="status" aria-live="polite"></p>
+          <p class="demo-note">שאלות? <a data-whatsapp target="_blank" rel="noopener">כתבו לנו בווטסאפ</a> או התקשרו: <a href="tel:0581357924" dir="ltr">058-1357924</a></p>
         </form>
-        <div class="rsvp-done"><h3 style="color:var(--accent)">תודה <span class="rsvp-name"></span>!</h3><p>מחכים לראותכם בברית</p></div>
+        <div class="rsvp-done"><h3 style="color:var(--accent)">תודה <span class="rsvp-name"></span>!</h3><p>מחכים לראותכם בברית</p><a class="btn primary" data-rsvp-wa hidden target="_blank" rel="noopener">שליחת האישור בווטסאפ</a></div>
       </div>
     </div>
   </section>
@@ -221,7 +224,7 @@ body.ready .hero .parents{opacity:1}
 <footer><p style="font-family:var(--font-d);font-size:44px;color:var(--accent)">מיכל ויוסי כהן</p><p>והאחים הגאים</p></footer>
 
 <script>
-window.SITE = { particles: 'stars', colors: ['#ffffff', '#f2c14e', '#6fb6ff'], introMs: 2000,
+window.SITE = { whatsapp: '972581357924', particles: 'stars', colors: ['#ffffff', '#f2c14e', '#6fb6ff'], introMs: 2000,
   event: { title: 'ברית המילה – בן למיכל ויוסי כהן', start: '2026-12-10T08:00:00', end: '2026-12-10T10:30:00', location: 'בית הכנסת אוהל יעקב, רחוב הרב קוק 15, ירושלים', address: 'רחוב הרב קוק 15, ירושלים' } };
 (() => {
   const cloud = (fill) => `<svg viewBox="0 0 300 150"><path d="M60 140a50 50 0 0 1 10-98 70 70 0 0 1 130-10 55 55 0 0 1 60 108z" fill="${fill}"/></svg>`;

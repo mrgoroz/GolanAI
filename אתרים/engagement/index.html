@@ -9,6 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bellefair&family=Heebo:wght@200;300;400;600;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/base.css">
+<script src="assets/a11y.js"></script>
 <style>
 :root{--bg:#0c0a09;--fg:#faf6ef;--muted:#b9ab96;--accent:#e8cfa0;--accent2:#e9a5a0;--on-accent:#1a1410;--card:rgba(255,255,255,.04);--line:rgba(232,207,160,.22);--font-d:"Bellefair",serif;--font-b:"Heebo",sans-serif;--radius:999px}
 body{background:radial-gradient(900px 700px at 50% 20%,#2e2216,transparent 70%),radial-gradient(700px 600px at 90% 100%,#3a1d20,transparent 70%),var(--bg)}
@@ -143,7 +144,7 @@ body.ready .hero .tag{opacity:1;transform:none}
         <h2 class="h2" data-reveal="up">ההתחלה <em>שלנו</em></h2>
         <p class="lead" data-reveal="up" data-delay=".15">הדליקו סאונד, תנו לבועות לעלות.</p>
       </div>
-      <div class="phone" data-reveal="blur"><video src="assets/invite.mp4" controls playsinline preload="metadata" poster="assets/poster.jpg"></video></div>
+      <div class="phone" data-reveal="blur"><video aria-label="סרטון ההזמנה" src="assets/invite.mp4" controls playsinline preload="metadata" poster="assets/poster.jpg"></video></div>
     </div>
   </section>
 
@@ -167,6 +168,7 @@ body.ready .hero .tag{opacity:1;transform:none}
         <p class="lead" data-reveal="up">שדרות רוטשילד 45, תל אביב · קומה 22 · חניון הבימה במרחק הליכה</p>
         <div class="btns" style="margin-top:30px" data-reveal="up" data-delay=".2">
           <a class="btn primary" data-waze target="_blank" rel="noopener">ניווט ב-Waze</a>
+          <a class="btn" data-whatsapp target="_blank" rel="noopener">ווטסאפ למארחים</a>
           <a class="btn" data-gmaps target="_blank" rel="noopener">Google Maps</a>
           <a class="btn" data-gcal target="_blank" rel="noopener">הוספה ליומן</a>
           <button class="btn" data-ics>קובץ .ics</button>
@@ -182,17 +184,18 @@ body.ready .hero .tag{opacity:1;transform:none}
       <h2 class="h2" data-reveal="up">נרים <em>יחד?</em></h2>
       <div class="rsvp-card" data-reveal="up">
         <form class="rsvp-form">
-          <div class="field"><label for="n">שם מלא</label><input id="n" name="name" required autocomplete="name"></div>
-          <div class="field"><label for="p">טלפון</label><input id="p" name="phone" type="tel" autocomplete="tel"></div>
-          <div class="choice">
+          <div class="field"><label for="n">שם מלא</label><input id="n" name="name" required autocomplete="name" aria-required="true"></div>
+          <div class="field"><label for="p">טלפון</label><input id="p" name="phone" type="tel" inputmode="tel" autocomplete="tel" required dir="ltr" placeholder="050-1234567" style="text-align:right"></div>
+          <fieldset class="choice"><legend>האם תגיעו?</legend>
             <label><input type="radio" name="coming" value="yes" checked><span>בטח! 🥂</span></label>
             <label><input type="radio" name="coming" value="no"><span>נחגוג מרחוק</span></label>
-          </div>
-          <div class="field"><label>כמה תהיו?</label><div class="stepper"><button type="button" data-d="-1" aria-label="פחות">−</button><input name="guests" value="2" inputmode="numeric" aria-label="מספר אורחים"><button type="button" data-d="1" aria-label="יותר">+</button></div></div>
+          </fieldset>
+          <div class="field guests-field"><label for="g">כמה תהיו?</label><div class="stepper"><button type="button" data-d="-1" aria-label="הפחתת מספר המגיעים">−</button><input id="g" name="guests" type="number" min="1" max="20" value="2" inputmode="numeric"><button type="button" data-d="1" aria-label="הוספת מגיע">+</button></div></div>
           <button class="btn primary" type="submit">שליחה</button>
-          <p class="demo-note">או בטלפון: 050-2468135</p>
+          <p class="form-status" role="status" aria-live="polite"></p>
+          <p class="demo-note">שאלות? <a data-whatsapp target="_blank" rel="noopener">כתבו לנו בווטסאפ</a> או התקשרו: <a href="tel:0502468135" dir="ltr">050-2468135</a></p>
         </form>
-        <div class="rsvp-done"><h3 class="champ">לחיים, <span class="rsvp-name"></span>!</h3><p>נתראה על הגג</p></div>
+        <div class="rsvp-done"><h3 class="champ">לחיים, <span class="rsvp-name"></span>!</h3><p>נתראה על הגג</p><a class="btn primary" data-rsvp-wa hidden target="_blank" rel="noopener">שליחת האישור בווטסאפ</a></div>
       </div>
     </div>
   </section>
@@ -200,7 +203,7 @@ body.ready .hero .tag{opacity:1;transform:none}
 <footer><p class="champ" style="font-family:var(--font-d);font-size:60px">רוני & דניאל</p><p>באהבה</p></footer>
 
 <script>
-window.SITE = { particles: 'bubbles', colors: ['#f6e7c8', '#e8cfa0', '#e9a5a0'], introMs: 2100,
+window.SITE = { whatsapp: '972502468135', particles: 'bubbles', colors: ['#f6e7c8', '#e8cfa0', '#e9a5a0'], introMs: 2100,
   event: { title: 'מסיבת האירוסין של רוני ודניאל', start: '2027-01-07T20:30:00', end: '2027-01-08T01:00:00', location: 'סקיי לאונג׳, שדרות רוטשילד 45, תל אביב', address: 'שדרות רוטשילד 45, תל אביב' } };
 (() => {
   const NS = 'http://www.w3.org/2000/svg', mk = (t, a, p) => { const e = document.createElementNS(NS, t); for (const k in a) e.setAttribute(k, a[k]); p.appendChild(e); return e; };

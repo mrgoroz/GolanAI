@@ -9,6 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Suez+One&family=Rubik:wght@300;400;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/base.css">
+<script src="assets/a11y.js"></script>
 <style>
 :root{--bg:#07080d;--fg:#eef1f7;--muted:#8d96aa;--accent:#f5c518;--accent2:#ffde59;--on-accent:#05060a;--card:rgba(255,255,255,.04);--line:rgba(245,197,24,.22);--font-d:"Suez One",serif;--font-b:"Rubik",sans-serif;--radius:4px}
 body{background:radial-gradient(1000px 700px at 50% 0%,#1c2233,transparent 70%),linear-gradient(180deg,#0b0e18,#07080d 40%)}
@@ -148,7 +149,7 @@ body.ready .hero .age{opacity:1}
         <h2 class="h2" data-reveal="up">העיר צריכה גיבור. <em>ואנחנו צריכים אתכם.</em></h2>
         <p class="lead" data-reveal="up" data-delay=".15">צפו בהזמנה המלאה – עם הסאונד.</p>
       </div>
-      <div class="phone" data-reveal="scale"><video src="assets/invite.mp4" controls playsinline preload="metadata" poster="assets/poster.jpg"></video></div>
+      <div class="phone" data-reveal="scale"><video aria-label="סרטון ההזמנה" src="assets/invite.mp4" controls playsinline preload="metadata" poster="assets/poster.jpg"></video></div>
     </div>
   </section>
 
@@ -172,6 +173,7 @@ body.ready .hero .age{opacity:1}
         <p class="lead" data-reveal="up">רחוב המלאכה 8, תל אביב · חניון ציבורי צמוד</p>
         <div class="btns" style="margin-top:30px" data-reveal="up" data-delay=".2">
           <a class="btn primary" data-waze target="_blank" rel="noopener">ניווט ב-Waze</a>
+          <a class="btn" data-whatsapp target="_blank" rel="noopener">ווטסאפ למארחים</a>
           <a class="btn" data-gmaps target="_blank" rel="noopener">Google Maps</a>
           <a class="btn" data-gcal target="_blank" rel="noopener">הוספה ליומן</a>
           <button class="btn" data-ics>קובץ .ics</button>
@@ -187,17 +189,18 @@ body.ready .hero .age{opacity:1}
       <h2 class="h2" data-reveal="up">מצטרפים <em>לליגה?</em></h2>
       <div class="rsvp-card" data-reveal="flip">
         <form class="rsvp-form">
-          <div class="field"><label for="n">שם הסוכן</label><input id="n" name="name" required autocomplete="name"></div>
-          <div class="field"><label for="p">טלפון</label><input id="p" name="phone" type="tel" autocomplete="tel"></div>
-          <div class="choice">
+          <div class="field"><label for="n">שם הסוכן</label><input id="n" name="name" required autocomplete="name" aria-required="true"></div>
+          <div class="field"><label for="p">טלפון</label><input id="p" name="phone" type="tel" inputmode="tel" autocomplete="tel" required dir="ltr" placeholder="050-1234567" style="text-align:right"></div>
+          <fieldset class="choice"><legend>האם תגיעו?</legend>
             <label><input type="radio" name="coming" value="yes" checked><span>מגיע/ה למשימה</span></label>
             <label><input type="radio" name="coming" value="no"><span>אצטרך לוותר</span></label>
-          </div>
-          <div class="field"><label>כמה סוכנים?</label><div class="stepper"><button type="button" data-d="-1" aria-label="פחות">−</button><input name="guests" value="2" inputmode="numeric" aria-label="מספר אורחים"><button type="button" data-d="1" aria-label="יותר">+</button></div></div>
+          </fieldset>
+          <div class="field guests-field"><label for="g">כמה סוכנים?</label><div class="stepper"><button type="button" data-d="-1" aria-label="הפחתת מספר המגיעים">−</button><input id="g" name="guests" type="number" min="1" max="20" value="2" inputmode="numeric"><button type="button" data-d="1" aria-label="הוספת מגיע">+</button></div></div>
           <button class="btn primary" type="submit">שליחה מוצפנת</button>
-          <p class="demo-note">או בטלפון: 052-7654321</p>
+          <p class="form-status" role="status" aria-live="polite"></p>
+          <p class="demo-note">שאלות? <a data-whatsapp target="_blank" rel="noopener">כתבו לנו בווטסאפ</a> או התקשרו: <a href="tel:0527654321" dir="ltr">052-7654321</a></p>
         </form>
-        <div class="rsvp-done"><h3 class="gold">קיבלנו, <span class="rsvp-name"></span>.</h3><p>האות יידלק – ואתם בפנים.</p></div>
+        <div class="rsvp-done"><h3 class="gold">קיבלנו, <span class="rsvp-name"></span>.</h3><p>האות יידלק – ואתם בפנים.</p><a class="btn primary" data-rsvp-wa hidden target="_blank" rel="noopener">שליחת האישור בווטסאפ</a></div>
       </div>
     </div>
   </section>
@@ -205,7 +208,7 @@ body.ready .hero .age{opacity:1}
 <footer><p class="metal" style="font-family:var(--font-d);font-size:52px">משפחת ברק</p><p>נתראה בלילה</p></footer>
 
 <script>
-window.SITE = { particles: 'rain', colors: ['#c4d0ee', '#f5c518', '#ffffff'], introMs: 2100,
+window.SITE = { whatsapp: '972527654321', particles: 'rain', colors: ['#c4d0ee', '#f5c518', '#ffffff'], introMs: 2100,
   event: { title: 'בר המצווה של נועם', start: '2027-02-11T20:00:00', end: '2027-02-11T23:59:00', location: 'מועדון נייט סיטי, רחוב המלאכה 8, תל אביב', address: 'רחוב המלאכה 8, תל אביב' } };
 (() => {
   const half = "M0 -18 L10 -40 L14 -22 C40 -30 70 -40 100 -70 C96 -40 120 -20 170 -10 C150 10 140 30 150 60 C125 40 100 45 85 70 C70 45 45 40 30 60 C25 30 15 20 0 40";
