@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>הנשף של מאיה · בת מצווה 04.03.27</title>
+<meta name="description" content="הנסיכה מאיה חוגגת בת מצווה! יום חמישי 04.03.2027, גני ארמון הוורדים, קיסריה.">
+<meta name="theme-color" content="#2a0f4a">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bellefair&family=Amatic+SC:wght@700&family=Assistant:wght@300;400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/base.css">
+<style>
+:root{--bg:#1c0838;--fg:#fff7fb;--muted:#e0c4e8;--accent:#ff7ab8;--accent2:#b48cff;--card:rgba(255,255,255,.09);--line:rgba(255,214,236,.28);--font-d:"Bellefair",serif;--font-b:"Assistant",sans-serif;--radius:30px;--gold:#f7d27a}
+body{background:radial-gradient(1000px 800px at 50% 0%,#8a3fb8,transparent 70%),radial-gradient(900px 700px at 0% 70%,rgba(255,111,174,.35),transparent 70%),radial-gradient(800px 600px at 100% 40%,rgba(180,140,255,.3),transparent 70%),linear-gradient(180deg,#1c0838,#3a1060 50%,#5a1a6e)}
+.goldtxt{background:linear-gradient(100deg,#b8862e 0%,#f7d27a 25%,#fff4d0 40%,#e9b955 55%,#fff1c4 72%,#b8862e 100%);background-size:250% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shimmer 6s linear infinite}
+@keyframes shimmer{to{background-position:-250% 0}}
+.hand{font-family:"Amatic SC",cursive;font-weight:700}
+
+/* intro: castle doors open */
+.intro{perspective:1600px;background:transparent}
+.door{position:absolute;top:0;bottom:0;width:50.5%;background:linear-gradient(90deg,#3b1360,#5a1a86);box-shadow:inset 0 0 0 14px #2a0b4a,inset 0 0 0 18px var(--gold);transition:transform 1.6s cubic-bezier(.7,0,.2,1)}
+.door::before{content:"";position:absolute;inset:12% 16%;border:3px solid rgba(247,210,122,.6);border-radius:200px 200px 10px 10px}
+.door.l{left:0;transform-origin:0 50%}.door.r{right:0;transform-origin:100% 50%}
+.door .knob{position:absolute;top:50%;width:26px;height:26px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#fff4d0,#c08a2e)}
+.door.l .knob{right:26px}.door.r .knob{left:26px}
+.intro .crest{position:absolute;inset:0;display:grid;place-items:center;z-index:2;transition:opacity .5s,transform 1s var(--ease)}
+.intro .crest svg{width:min(260px,50vw);filter:drop-shadow(0 0 30px rgba(247,210,122,.6))}
+.intro .crest .cd{stroke-dasharray:900;stroke-dashoffset:900;animation:draw 1.6s var(--ease) .2s forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+body.ready .intro .crest{opacity:0;transform:scale(1.6)}
+body.ready .door.l{transform:rotateY(-105deg)}
+body.ready .door.r{transform:rotateY(105deg)}
+body.ready .intro{visibility:hidden;transition:visibility 0s 1.7s}
+
+/* hero */
+.hero{min-height:100svh;display:grid;place-items:center;text-align:center;overflow:hidden;padding:80px 0 160px}
+.castle{position:absolute;left:50%;bottom:0;width:min(1000px,130vw);transform:translate(-50%,calc(22% + var(--scroll)*.25px));opacity:.5}
+.hero-in{position:relative;z-index:2}
+.crown{width:clamp(120px,16vw,190px);margin:0 auto 6px;animation:float 4s ease-in-out infinite}
+@keyframes float{50%{transform:translateY(-14px) rotate(2deg)}}
+.hero .pre{font-weight:300;letter-spacing:.3em;font-size:clamp(14px,1.8vw,19px);color:var(--muted);opacity:0;transition:1s 1.4s}
+body.ready .hero .pre{opacity:1}
+.hero h1{font-family:var(--font-d);font-size:clamp(150px,28vw,340px);line-height:1;--base:1.3s;filter:drop-shadow(0 6px 30px rgba(255,150,210,.5))}
+.hero h1 .ch{transform:translateY(-.4em) scale(.4) rotate(-20deg)}
+.hero .sub{font-size:clamp(40px,6vw,72px);opacity:0;transform:translateY(20px);transition:1.2s var(--ease) 2.2s}
+body.ready .hero .sub{opacity:1;transform:none}
+
+/* mirror story */
+.story{height:400vh}
+.mirror{position:relative;width:min(560px,86vw);height:min(78svh,720px);display:grid;place-items:center;text-align:center}
+.mirror svg.frame{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.mirror .glass{fill:rgba(255,255,255,.07)}
+.mirror .ring{fill:none;stroke:url(#goldg);stroke-width:6;stroke-dasharray:var(--len);stroke-dashoffset:calc(var(--len)*(1 - var(--sp)))}
+.mirror .base{fill:none;stroke:rgba(255,255,255,.18);stroke-width:2}
+.mirror [data-only]{inset:14% 10%;display:flex;flex-direction:column;align-items:center;justify-content:center;filter:blur(16px);transform:scale(.85)}
+.mirror [data-only].on{filter:none;transform:none}
+.mirror .lbl{font-size:clamp(40px,6vw,64px);color:#ffc2dd}
+.mirror .big{font-family:var(--font-d);font-size:clamp(64px,11vw,130px);line-height:1;direction:ltr}
+.mirror .mid{font-family:var(--font-d);font-size:clamp(44px,7vw,80px);line-height:1.05}
+.mirror p{font-size:clamp(17px,2.2vw,22px);color:var(--muted)}
+.story-pin::before{content:"";position:absolute;width:70vmin;height:70vmin;border-radius:50%;background:radial-gradient(circle,rgba(255,122,184,.35),transparent 65%);filter:blur(30px);transform:scale(calc(.8 + var(--sp)*.5))}
+
+.h2{font-family:var(--font-d)}
+.h2 em{font-style:normal;color:var(--accent)}
+.eyebrow{font-family:"Amatic SC";font-size:30px;letter-spacing:2px;color:#ffc2dd}
+.cd-box{border-radius:200px 200px 26px 26px;background:linear-gradient(180deg,rgba(255,255,255,.16),rgba(255,255,255,.04))}
+.cd-box b{color:var(--gold)}
+
+.vid-grid{display:grid;grid-template-columns:1fr auto;gap:60px;align-items:center}
+.phone{width:min(320px,78vw);aspect-ratio:9/16;border-radius:160px 160px 30px 30px;overflow:hidden;border:4px solid var(--gold);box-shadow:0 30px 90px rgba(255,122,184,.45);background:#000}
+.phone video{width:100%;height:100%;object-fit:cover}
+
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:40px}
+.card{position:relative;padding:40px 30px;border-radius:200px 200px 30px 30px;background:var(--card);border:1px solid var(--line);backdrop-filter:blur(14px);text-align:center;overflow:hidden}
+.card::after{content:"";position:absolute;inset:0;background:radial-gradient(300px circle at var(--gx,50%) var(--gy,0%),rgba(255,255,255,.18),transparent 60%);pointer-events:none}
+.card b{display:block;font-family:var(--font-d);font-size:64px;color:var(--gold);direction:ltr}
+.card h4{font-size:24px;font-weight:800}
+.card p{color:var(--muted)}
+
+.loc{display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:center}
+.globe{aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 35% 30%,#ffd6ec,#b48cff 50%,#5a1a86);box-shadow:0 0 0 14px rgba(255,255,255,.06),0 40px 100px rgba(255,122,184,.4);display:grid;place-items:center;position:relative}
+.globe svg{width:42%;animation:float 3s ease-in-out infinite}
+.rsvp-card .btn.primary{justify-content:center;font-size:20px}
+@media (max-width:760px){.vid-grid,.loc,.cards{grid-template-columns:1fr}.phone{margin:auto}.globe{width:70%;margin:auto}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><defs>
+  <linearGradient id="goldg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff4d0"/><stop offset=".5" stop-color="#f7d27a"/><stop offset="1" stop-color="#ff9ccb"/></linearGradient>
+  <linearGradient id="cg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4a1670"/><stop offset="1" stop-color="#22093f"/></linearGradient>
+</defs></svg>
+<div class="progress-bar"></div>
+<div class="intro" aria-hidden="true">
+  <div class="door l"><span class="knob"></span></div><div class="door r"><span class="knob"></span></div>
+  <div class="crest"><svg viewBox="0 0 420 280"><g fill="none" stroke="url(#goldg)" stroke-width="8" stroke-linejoin="round" stroke-linecap="round"><path class="cd" d="M40 230 L20 70 L120 150 L210 30 L300 150 L400 70 L380 230 Z"/><path class="cd" d="M40 262 H380"/><path class="cd" d="M190 200 L210 170 L230 200 L210 228 Z"/></g></svg></div>
+</div>
+<button class="music-btn" aria-label="הפעלת מוזיקה"><span class="bars"><i></i><i></i><i></i><i></i></span></button>
+
+<header class="hero">
+  <svg class="castle" id="castle" viewBox="0 0 1080 600" preserveAspectRatio="xMidYMax meet"></svg>
+  <div class="hero-in">
+    <svg class="crown" viewBox="0 0 420 280"><g fill="none" stroke="url(#goldg)" stroke-width="10" stroke-linejoin="round" stroke-linecap="round"><path d="M40 230 L20 70 L120 150 L210 30 L300 150 L400 70 L380 230 Z"/><path d="M40 262 H380"/></g><circle cx="210" cy="20" r="16" fill="#ff7ab8"/><circle cx="20" cy="62" r="12" fill="#b48cff"/><circle cx="400" cy="62" r="12" fill="#b48cff"/></svg>
+    <p class="pre">הנכם מוזמנים לנשף בת המצווה של</p>
+    <h1 class="goldtxt" data-split>מאיה</h1>
+    <p class="sub hand">12 שנים של קסם</p>
+  </div>
+</header>
+
+<main>
+  <section class="story" data-story="4">
+    <div class="story-pin">
+      <div class="mirror">
+        <svg class="frame" viewBox="0 0 560 720" preserveAspectRatio="none">
+          <path class="glass" d="M280 10 C450 10 550 140 550 300 V650 Q550 710 490 710 H70 Q10 710 10 650 V300 C10 140 110 10 280 10Z"/>
+          <path class="base" d="M280 10 C450 10 550 140 550 300 V650 Q550 710 490 710 H70 Q10 710 10 650 V300 C10 140 110 10 280 10Z"/>
+          <path class="ring" style="--len:2200" d="M280 10 C450 10 550 140 550 300 V650 Q550 710 490 710 H70 Q10 710 10 650 V300 C10 140 110 10 280 10Z"/>
+        </svg>
+        <div data-only="0"><div class="lbl hand">מראה מראה שעל הקיר...</div><div class="mid goldtxt">מתי הנשף?</div><p>גללי כדי לגלות</p></div>
+        <div data-only="1"><div class="lbl hand">יום חמישי</div><div class="big goldtxt">04.03.27</div><p>כ״ה באדר א׳ התשפ״ז</p></div>
+        <div data-only="2"><div class="lbl hand">הכרכרה יוצאת ב</div><div class="big goldtxt">19:00</div><p>קבלת פנים · 20:00 הנשף מתחיל</p></div>
+        <div data-only="3"><div class="lbl hand">בארמון</div><div class="mid goldtxt">גני ארמון הוורדים</div><p>דרך הים 3, קיסריה</p></div>
+      </div>
+      <div class="story-dots"><i></i><i></i><i></i><i></i></div>
+      <div class="story-hint">המשיכו לגלול ✦</div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="wrap">
+      <span class="eyebrow" data-reveal="up">עד שהשעון יצלצל</span>
+      <h2 class="h2" data-reveal="blur">הספירה <em>לנשף</em></h2>
+      <div class="countdown" data-countdown="2027-03-04T19:00:00+02:00" data-reveal="up" data-delay=".15">
+        <div class="cd-box"><b data-cd="d">00</b><span>ימים</span></div>
+        <div class="cd-box"><b data-cd="h">00</b><span>שעות</span></div>
+        <div class="cd-box"><b data-cd="m">00</b><span>דקות</span></div>
+        <div class="cd-box"><b data-cd="s">00</b><span>שניות</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="wrap vid-grid">
+      <div>
+        <span class="eyebrow" data-reveal="up">ההזמנה הקסומה</span>
+        <h2 class="h2" data-reveal="up">צפו <em>בהזמנה</em></h2>
+        <p class="lead" data-reveal="up" data-delay=".15">ערב של ריקודים, נצנצים והפתעות – ואתם מוזמנים.</p>
+      </div>
+      <div class="phone" data-reveal="scale"><video src="assets/invite.mp4" controls playsinline preload="metadata" poster="assets/poster.jpg"></video></div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="wrap">
+      <span class="eyebrow" data-reveal="up">תוכנית הערב</span>
+      <h2 class="h2" data-reveal="up">שעון <em>הקסמים</em></h2>
+      <div class="cards">
+        <div class="card" data-reveal="flip" data-tilt><b>19:00</b><h4>קבלת פנים</h4><p>שטיח ורוד, בר קינוחים וצלם מקצועי</p></div>
+        <div class="card" data-reveal="flip" data-delay=".12" data-tilt><b>20:00</b><h4>כניסת הנסיכה</h4><p>מאיה נכנסת לאולם – ברכות ומופע מיוחד</p></div>
+        <div class="card" data-reveal="flip" data-delay=".24" data-tilt><b>21:00</b><h4>הנשף</h4><p>רוקדות עד חצות (ואפילו קצת אחרי)</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="wrap loc">
+      <div>
+        <span class="eyebrow" data-reveal="up">איך מגיעים לארמון</span>
+        <h2 class="h2 goldtxt" data-reveal="blur">גני ארמון הוורדים</h2>
+        <p class="lead" data-reveal="up">דרך הים 3, קיסריה · חניה עם שירות וואלה</p>
+        <div class="btns" style="margin-top:30px" data-reveal="up" data-delay=".2">
+          <a class="btn primary" data-waze target="_blank" rel="noopener">ניווט ב-Waze</a>
+          <a class="btn" data-gmaps target="_blank" rel="noopener">Google Maps</a>
+          <a class="btn" data-gcal target="_blank" rel="noopener">הוספה ליומן</a>
+          <button class="btn" data-ics>קובץ .ics</button>
+        </div>
+      </div>
+      <div class="globe" data-reveal="scale"><svg viewBox="0 0 170 210"><path d="M85 200 C40 140 12 105 12 72 A73 73 0 0 1 158 72 C158 105 130 140 85 200Z" fill="#fff7fb"/><circle cx="85" cy="72" r="28" fill="#ff7ab8"/></svg></div>
+    </div>
+  </section>
+
+  <section class="sec" id="rsvp">
+    <div class="wrap" style="max-width:760px">
+      <span class="eyebrow" data-reveal="up">אישור הגעה</span>
+      <h2 class="h2" data-reveal="up">מגיעים <em>לנשף?</em></h2>
+      <div class="rsvp-card" data-reveal="scale">
+        <form class="rsvp-form">
+          <div class="field"><label for="n">שם מלא</label><input id="n" name="name" required autocomplete="name"></div>
+          <div class="field"><label for="p">טלפון</label><input id="p" name="phone" type="tel" autocomplete="tel"></div>
+          <div class="choice">
+            <label><input type="radio" name="coming" value="yes" checked><span>בטח שמגיעים ✨</span></label>
+            <label><input type="radio" name="coming" value="no"><span>לא נוכל, מצטערים</span></label>
+          </div>
+          <div class="field"><label>כמה אורחים?</label><div class="stepper"><button type="button" data-d="-1" aria-label="פחות">−</button><input name="guests" value="2" inputmode="numeric" aria-label="מספר אורחים"><button type="button" data-d="1" aria-label="יותר">+</button></div></div>
+          <button class="btn primary" type="submit">שליחה</button>
+          <p class="demo-note">או בטלפון: 054-3216789</p>
+        </form>
+        <div class="rsvp-done"><h3 class="goldtxt">תודה <span class="rsvp-name"></span>!</h3><p>נתראה בנשף ✨</p></div>
+      </div>
+    </div>
+  </section>
+</main>
+<footer><p class="goldtxt" style="font-family:var(--font-d);font-size:56px">משפחת שמעוני</p><p class="hand" style="font-size:32px">מחכים לרקוד איתכם</p></footer>
+
+<script>
+window.SITE = { particles: 'sparkle', colors: ['#fff4d0', '#ffb0d6', '#ffffff', '#d9c2ff'], introMs: 2200,
+  event: { title: 'בת המצווה של מאיה', start: '2027-03-04T19:00:00', end: '2027-03-04T23:59:00', location: 'גני ארמון הוורדים, דרך הים 3, קיסריה', address: 'דרך הים 3, קיסריה' } };
+(() => {
+  const NS = 'http://www.w3.org/2000/svg', mk = (t, a, p) => { const e = document.createElementNS(NS, t); for (const k in a) e.setAttribute(k, a[k]); p.appendChild(e); return e; };
+  const g = document.getElementById('castle');
+  const tower = (x, w, h, cone) => { mk('rect', { x, y: 600 - h, width: w, height: h, fill: 'url(#cg)' }, g); mk('path', { d: `M${x - 10} ${600 - h}L${x + w / 2} ${600 - h - cone}L${x + w + 10} ${600 - h}Z`, fill: '#2a0b4a' }, g);
+    mk('path', { d: `M${x + w / 2} ${600 - h - cone}v-40l32 11-32 11`, fill: '#ff7ab8' }, g);
+    for (let wy = 600 - h + 40; wy < 560; wy += 80) mk('path', { d: `M${x + w / 2 - 10} ${wy + 36}v-24a10 10 0 0 1 20 0v24z`, fill: '#ffd98a' }, g); };
+  mk('rect', { x: 180, y: 380, width: 720, height: 220, fill: 'url(#cg)' }, g);
+  tower(90, 100, 320, 130); tower(890, 100, 320, 130); tower(300, 120, 400, 160); tower(660, 120, 400, 160); tower(470, 140, 500, 190);
+})();
+</script>
+<script src="assets/engine.js"></script>
+</body>
+</html>
