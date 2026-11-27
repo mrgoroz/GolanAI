@@ -141,15 +141,52 @@
         margin-top: 80px; padding: 26px 64px; border: 2px solid rgba(168,130,47,.75); background: rgba(255,255,255,.45); border-radius: 999px;
         font-family: var(--font-body); font-size: 38px; font-weight: 400; letter-spacing: .12em; color: var(--gold-1);
       }
+
+      /* ---------- scene 0: envelope intro ---------- */
+      #s0 { z-index: 6; }
+      #env { position: absolute; left: 100px; top: 660px; width: 880px; height: 600px; }
+      #env .shadow {
+        position: absolute; left: 40px; right: 40px; bottom: -46px; height: 70px; border-radius: 50%;
+        background: radial-gradient(ellipse at center, rgba(120,88,40,.32) 0%, rgba(120,88,40,0) 70%);
+      }
+      #env .body { position: absolute; inset: 0; }
+      #env .back {
+        position: absolute; inset: 0; z-index: 0; border-radius: 16px;
+        background: linear-gradient(180deg, #e6d6b8 0%, #efe3cb 60%, #e9dbc0 100%);
+        box-shadow: 0 30px 60px rgba(110,80,36,.18), 0 6px 14px rgba(110,80,36,.12);
+      }
+      #env .letter {
+        position: absolute; left: 40px; top: 30px; width: 800px; height: 560px; z-index: 2;
+        border-radius: 8px; background: linear-gradient(180deg, #fffdf8 0%, #fbf6ec 100%);
+        box-shadow: 0 10px 30px rgba(110,80,36,.16);
+        display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+      }
+      #env .letter::before, #env .letter::after {
+        content: ""; position: absolute; border-radius: 4px; pointer-events: none;
+      }
+      #env .letter::before { inset: 22px; border: 2px solid rgba(184,145,63,.75); }
+      #env .letter::after  { inset: 34px; border: 1px solid rgba(184,145,63,.4); }
+      #env .letter .l-eyebrow { font-family: var(--font-body); font-weight: 300; font-size: 30px; letter-spacing: .16em; color: var(--muted); }
+      #env .letter .l-names { font-size: 104px; line-height: 1.1; margin: 22px 0 18px; }
+      #env .letter .l-rule { width: 260px; height: 2px; background: linear-gradient(90deg, rgba(201,164,92,0), #c9a24f 50%, rgba(201,164,92,0)); }
+      #env .pocket, #env .flap { position: absolute; left: 0; top: 0; width: 880px; overflow: visible; }
+      #env .pocket { height: 600px; z-index: 3; }
+      #env .flap { height: 600px; z-index: 4; transform-origin: 50% 0; transform-style: preserve-3d; }
+      #env .flap svg { position: absolute; inset: 0; width: 880px; height: 600px; overflow: visible; backface-visibility: hidden; }
+      #env .flap .inside { transform: rotateX(180deg); }
+      #seal { position: absolute; left: 330px; top: 270px; width: 220px; height: 220px; z-index: 5; }
+      #seal svg { position: absolute; inset: 0; width: 220px; height: 220px; overflow: visible; }
+      #seal .spark { position: absolute; left: 106px; top: 106px; width: 8px; height: 8px; border-radius: 50%;
+        background: radial-gradient(circle at 35% 30%, #fbe7a8, #c9a24f 60%, #8a6a2e); opacity: 0; }
     </style>
   </head>
   <body>
-    <div id="root" data-composition-id="main" data-start="0" data-duration="26" data-width="1080" data-height="1920">
+    <div id="root" data-composition-id="main" data-start="0" data-duration="32" data-width="1080" data-height="1920">
 
-      <audio id="music" src="assets/music.m4a" data-start="0" data-duration="26" data-volume="0.9" data-fade-out="2" data-track-index="9"></audio>
+      <audio id="music" src="assets/music.m4a" data-start="0" data-duration="32" data-volume="0.9" data-fade-out="2" data-track-index="9"></audio>
 
       <!-- persistent background -->
-      <div id="bg" class="clip" data-start="0" data-duration="26" data-track-index="0">
+      <div id="bg" class="clip" data-start="0" data-duration="32" data-track-index="0">
         <div id="glow"></div>
         <div id="orbs"></div>
         <div id="frame">
@@ -162,8 +199,68 @@
         <div id="vignette"></div>
       </div>
 
+      <!-- scene 0: sealed envelope that opens -->
+      <div id="s0" class="clip" data-start="0" data-duration="6.6" data-track-index="6">
+        <div class="wash" style="width:1200px;height:1200px;margin:-600px 0 0 -600px"></div>
+        <div id="env">
+          <div class="shadow"></div>
+          <div class="body">
+            <div class="back"></div>
+            <div class="letter">
+              <div class="l-eyebrow">ההזמנה שלכם</div>
+              <div class="l-names gold-text">הילה &amp; בנימין</div>
+              <div class="l-rule"></div>
+            </div>
+            <svg class="pocket" viewBox="0 0 880 600">
+              <defs>
+                <linearGradient id="pocketG" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#f6ecd9" /><stop offset="1" stop-color="#efe2c8" />
+                </linearGradient>
+                <linearGradient id="sideG" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0" stop-color="#f3e7d0" /><stop offset="1" stop-color="#f9f1e2" />
+                </linearGradient>
+              </defs>
+              <!-- side flaps -->
+              <path d="M0 0 L440 360 L0 600 Z" fill="url(#sideG)" />
+              <path d="M880 0 L440 360 L880 600 Z" fill="url(#sideG)" />
+              <!-- bottom flap -->
+              <path d="M0 600 L410 330 Q440 310 470 330 L880 600 Z" fill="url(#pocketG)" />
+              <path d="M0 600 L410 330 Q440 310 470 330 L880 600" fill="none" stroke="rgba(150,115,55,.28)" stroke-width="2" />
+              <path d="M0 0 L440 360 L880 0" fill="none" stroke="rgba(150,115,55,.18)" stroke-width="1.5" />
+              <rect x="1" y="1" width="878" height="598" rx="16" fill="none" stroke="rgba(184,145,63,.55)" stroke-width="2" />
+            </svg>
+            <div class="flap">
+              <svg class="outside" viewBox="0 0 880 600">
+                <defs>
+                  <linearGradient id="flapG" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0" stop-color="#f1e5cc" /><stop offset="1" stop-color="#faf3e6" />
+                  </linearGradient>
+                  <filter id="flapShadow" x="-10%" y="-10%" width="120%" height="140%">
+                    <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#6e5024" flood-opacity=".22" />
+                  </filter>
+                </defs>
+                <path d="M16 0 L864 0 Q880 0 868 12 L462 372 Q440 392 418 372 L12 12 Q0 0 16 0 Z" fill="url(#flapG)" filter="url(#flapShadow)" />
+                <path d="M30 10 L440 372 L850 10" fill="none" stroke="rgba(184,145,63,.6)" stroke-width="2" />
+              </svg>
+              <svg class="inside" viewBox="0 0 880 600">
+                <defs>
+                  <pattern id="liner" width="40" height="40" patternUnits="userSpaceOnUse">
+                    <rect width="40" height="40" fill="#efe0c2" />
+                    <path d="M20 6 L34 20 L20 34 L6 20 Z" fill="none" stroke="#c9a45c" stroke-opacity=".55" stroke-width="1.2" />
+                    <circle cx="20" cy="20" r="2.2" fill="#b8913f" fill-opacity=".6" />
+                  </pattern>
+                </defs>
+                <path d="M16 0 L864 0 Q880 0 868 12 L462 372 Q440 392 418 372 L12 12 Q0 0 16 0 Z" fill="url(#liner)" />
+                <path d="M30 10 L440 372 L850 10" fill="none" stroke="rgba(184,145,63,.6)" stroke-width="2" />
+              </svg>
+            </div>
+            <div id="seal"></div>
+          </div>
+        </div>
+      </div>
+
       <!-- scene 1: opening -->
-      <div id="s1" class="clip" data-start="0" data-duration="5.2" data-track-index="1">
+      <div id="s1" class="clip" data-start="6" data-duration="5.2" data-track-index="1">
         <div class="wash" style="width:900px;height:900px;margin:-450px 0 0 -450px"></div>
         <div class="center">
           <svg class="ornament o1" viewBox="0 0 360 80">
@@ -178,7 +275,7 @@
       </div>
 
       <!-- scene 2: names -->
-      <div id="s2" class="clip" data-start="4.8" data-duration="6.4" data-track-index="2">
+      <div id="s2" class="clip" data-start="10.8" data-duration="6.4" data-track-index="2">
         <div class="wash" style="width:1150px;height:1150px;margin:-575px 0 0 -575px"></div>
         <div class="center">
           <div class="name gold-text n1">הילה</div>
@@ -189,7 +286,7 @@
       </div>
 
       <!-- scene 3: date -->
-      <div id="s3" class="clip" data-start="10.8" data-duration="5.6" data-track-index="3">
+      <div id="s3" class="clip" data-start="16.8" data-duration="5.6" data-track-index="3">
         <div class="wash" style="width:1000px;height:1000px;margin:-500px 0 0 -500px"></div>
         <div class="center">
           <div class="day">יום חמישי</div>
@@ -205,7 +302,7 @@
       </div>
 
       <!-- scene 4: venue -->
-      <div id="s4" class="clip" data-start="16" data-duration="5.6" data-track-index="4">
+      <div id="s4" class="clip" data-start="22" data-duration="5.6" data-track-index="4">
         <div class="wash" style="width:1000px;height:1000px;margin:-500px 0 0 -500px"></div>
         <div class="center">
           <svg class="pin" viewBox="0 0 120 120">
@@ -224,7 +321,7 @@
       </div>
 
       <!-- scene 5: closing -->
-      <div id="s5" class="clip" data-start="21.2" data-duration="4.8" data-track-index="5">
+      <div id="s5" class="clip" data-start="27.2" data-duration="4.8" data-track-index="5">
         <div class="wash" style="width:1050px;height:1050px;margin:-525px 0 0 -525px"></div>
         <div class="center">
           <div class="mono">
@@ -273,7 +370,9 @@
       prepDraw("#s5 .mono circle");
 
       const tl = gsap.timeline({ paused: true });
-      const T = 26;
+      const T = 32;
+      const D = 6; // envelope intro length; all invitation scenes run on `sc`, offset by D
+      const sc = gsap.timeline();
 
       // ---------- background ----------
       orbs.forEach((o) => {
@@ -287,57 +386,139 @@
       tl.from(".corner .leaf", { opacity: 0, scale: 0, transformOrigin: "50% 100%", duration: 0.9, ease: "back.out(2)", stagger: 0.06 }, 1.8);
       tl.from(".corner circle", { opacity: 0, scale: 0, transformOrigin: "50% 50%", duration: 0.6, ease: "back.out(3)" }, 2.6);
       [["#s1",0],["#s2",4.8],["#s3",10.8],["#s4",16],["#s5",21.2]].forEach(([id,t]) =>
-        tl.fromTo(id + " .wash", { scale: 0.6, opacity: 0 }, { scale: 1.05, opacity: 1, duration: 2.2, ease: "power2.out" }, t + 0.1));
+        sc.fromTo(id + " .wash", { scale: 0.6, opacity: 0 }, { scale: 1.05, opacity: 1, duration: 2.2, ease: "power2.out" }, t + 0.1));
       // gold shimmer sweeps across every gold text
       tl.fromTo(".gold-text", { backgroundPosition: "0% 50%" }, { backgroundPosition: "100% 50%", duration: T, ease: "none" }, 0);
 
+      // ---------- scene 0: envelope + wax seal ----------
+      (() => {
+        // wax blob outline: deterministic wobbly circle
+        const pts = [];
+        for (let i = 0; i < 72; i++) {
+          const a = (i / 72) * Math.PI * 2;
+          const r = 96 + 4.5 * Math.sin(a * 7 + 0.6) + 3 * Math.sin(a * 13 + 2.1) + 2 * Math.sin(a * 5);
+          pts.push((110 + r * Math.cos(a)).toFixed(1) + " " + (110 + r * Math.sin(a)).toFixed(1));
+        }
+        const blob = "M" + pts.join(" L") + " Z";
+        // jagged crack down the middle
+        const crack = [[112,0],[104,30],[116,58],[102,86],[118,112],[104,140],[114,168],[106,196],[110,220]];
+        const leftClip = "M-20 -20 L" + crack.map(p => p.join(" ")).join(" L") + " L-20 240 Z";
+        const rightClip = "M240 -20 L" + crack.map(p => p.join(" ")).join(" L") + " L240 240 Z";
+        const face = `
+          <path d="${blob}" fill="url(#waxG)" />
+          <path d="${blob}" fill="none" stroke="#4a0f14" stroke-opacity=".5" stroke-width="2" />
+          <circle cx="110" cy="110" r="74" fill="none" stroke="#3f0b10" stroke-opacity=".45" stroke-width="5" />
+          <circle cx="110" cy="110" r="74" fill="none" stroke="url(#sealGold)" stroke-width="2.2" />
+          <circle cx="110" cy="110" r="64" fill="none" stroke="url(#sealGold)" stroke-opacity=".55" stroke-width="1" />
+          <text x="144" y="131" text-anchor="middle" font-family="Bellefair, serif" font-size="76" fill="url(#sealGold)" filter="url(#emboss)">ה</text>
+          <text x="75" y="131" text-anchor="middle" font-family="Bellefair, serif" font-size="76" fill="url(#sealGold)" filter="url(#emboss)">ב</text>
+          <circle cx="110" cy="112" r="3.5" fill="url(#sealGold)" />
+          <ellipse cx="80" cy="62" rx="38" ry="16" fill="#fff" fill-opacity=".14" transform="rotate(-30 80 62)" />`;
+        const defs = `<defs>
+          <radialGradient id="waxG" cx=".38" cy=".32" r=".8">
+            <stop offset="0" stop-color="#b23a42" /><stop offset=".55" stop-color="#8a2228" /><stop offset="1" stop-color="#5a1117" />
+          </radialGradient>
+          <linearGradient id="sealGold" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#fff1c4" /><stop offset=".5" stop-color="#f0d38a" /><stop offset="1" stop-color="#d6b064" />
+          </linearGradient>
+          <filter id="emboss" x="-20%" y="-20%" width="140%" height="140%">
+            <feDropShadow dx="2" dy="3" stdDeviation="1.2" flood-color="#2e070b" flood-opacity=".7" />
+          </filter>
+          <clipPath id="sealL"><path d="${leftClip}" /></clipPath>
+          <clipPath id="sealR"><path d="${rightClip}" /></clipPath>
+          <filter id="sealShadow" x="-20%" y="-20%" width="140%" height="150%">
+            <feDropShadow dx="0" dy="6" stdDeviation="6" flood-color="#3a1a10" flood-opacity=".35" />
+          </filter>
+        </defs>`;
+        let sparks = "";
+        for (let i = 0; i < 14; i++) sparks += '<div class="spark"></div>';
+        document.getElementById("seal").innerHTML =
+          `<svg class="whole" viewBox="0 0 220 220">${defs}<g filter="url(#sealShadow)">${face}</g></svg>` +
+          `<svg class="half hl" viewBox="0 0 220 220"><g filter="url(#sealShadow)"><g clip-path="url(#sealL)">${face}</g></g></svg>` +
+          `<svg class="half hr" viewBox="0 0 220 220"><g filter="url(#sealShadow)"><g clip-path="url(#sealR)">${face}</g></g></svg>` + sparks;
+      })();
+
+      // entrance: envelope floats up into place
+      tl.fromTo("#s0 .wash", { scale: 0.6, opacity: 0 }, { scale: 1.05, opacity: 1, duration: 2.4, ease: "power2.out" }, 0.1);
+      tl.fromTo("#env", { opacity: 0, y: 90, rotation: -2.5, scale: 0.94 }, { opacity: 1, y: 0, rotation: 0, scale: 1, duration: 1.6, ease: "power3.out" }, 0.1);
+      tl.fromTo("#env .shadow", { opacity: 0, scaleX: 0.7 }, { opacity: 1, scaleX: 1, duration: 1.6, ease: "power3.out" }, 0.1);
+      tl.fromTo("#seal", { scale: 1.25, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.9, ease: "back.out(1.6)" }, 0.7);
+      // seal glows gently, then breaks in two
+      tl.set("#seal .half", { opacity: 0 }, 0);
+      tl.to("#seal", { scale: 1.07, duration: 0.3, ease: "sine.out" }, 1.6);
+      tl.set("#seal .half", { opacity: 1 }, 2.0);
+      tl.set("#seal .whole", { opacity: 0 }, 2.0);
+      tl.to("#seal", { scale: 1, duration: 0.2, ease: "sine.in" }, 1.9);
+      tl.to("#seal .hl", { x: -34, y: 70, rotation: -16, opacity: 0, transformOrigin: "50% 50%", duration: 1.0, ease: "power2.in" }, 2.0);
+      tl.to("#seal .hr", { x: 34, y: 76, rotation: 14, opacity: 0, transformOrigin: "50% 50%", duration: 1.0, ease: "power2.in" }, 2.0);
+      gsap.utils.toArray("#seal .spark").forEach((el, i) => {
+        const a = (i / 14) * Math.PI * 2 + 0.3;
+        const d = 90 + (i % 3) * 38;
+        const ex = Math.cos(a) * d, ey = Math.sin(a) * d - 20;
+        tl.fromTo(el, { x: 0, y: 0, opacity: 0, scale: 0.6 },
+          { x: ex, y: ey, opacity: 1, scale: 1, duration: 0.5, ease: "power2.out" }, 2.0);
+        tl.fromTo(el, { y: ey }, { opacity: 0, y: ey + 30, duration: 0.7, ease: "sine.in", immediateRender: false }, 2.5);
+      });
+      // flap folds open toward the viewer, then tucks behind the letter
+      tl.fromTo("#env .flap", { rotationX: 0, transformPerspective: 2200 }, { rotationX: 180, duration: 1.2, ease: "power2.inOut" }, 2.6);
+      tl.set("#env .flap", { zIndex: 1 }, 3.2);
+      // letter rises out, comes forward and grows
+      tl.to("#env .letter", { y: -520, duration: 1.2, ease: "power2.inOut" }, 3.6);
+      tl.set("#env .letter", { zIndex: 10 }, 4.8);
+      tl.to("#env .letter", { y: 10, scale: 1.25, duration: 0.9, ease: "power3.inOut" }, 4.8);
+      tl.to(["#env .back", "#env .pocket", "#env .flap", "#env .shadow"], { opacity: 0, y: 260, duration: 0.9, ease: "power2.in" }, 4.8);
+      tl.to("#env .letter", { opacity: 0, scale: 1.32, filter: "blur(10px)", duration: 0.7, ease: "power2.in" }, 5.7);
+      tl.to("#s0 .wash", { opacity: 0, duration: 0.8 }, 5.7);
+
       // ---------- scene 1 ----------
-      tl.to("#s1 .ornament .draw", { strokeDashoffset: 0, duration: 1.4, ease: "power2.inOut" }, 0.4);
-      tl.from("#s1 .ornament .dot", { scale: 0, transformOrigin: "180px 40px", duration: 0.6, ease: "back.out(3)" }, 1.4);
-      tl.from("#s1 .e1", { opacity: 0, y: 20, scaleX: 1.35, filter: "blur(8px)", duration: 1.4, ease: "power3.out" }, 0.9);
-      tl.from("#s1 .r1", { scaleX: 0, duration: 1.2, ease: "power3.inOut" }, 1.4);
-      tl.from("#s1 .line1", { opacity: 0, y: 40, filter: "blur(14px)", duration: 1.2, ease: "power3.out" }, 1.9);
-      tl.from("#s1 .line2", { opacity: 0, y: 50, filter: "blur(18px)", duration: 1.4, ease: "power3.out" }, 2.4);
-      tl.to("#s1 .center", { opacity: 0, y: -60, filter: "blur(12px)", duration: 0.8, ease: "power2.in" }, 4.4);
+      sc.to("#s1 .ornament .draw", { strokeDashoffset: 0, duration: 1.4, ease: "power2.inOut" }, 0.4);
+      sc.from("#s1 .ornament .dot", { scale: 0, transformOrigin: "180px 40px", duration: 0.6, ease: "back.out(3)" }, 1.4);
+      sc.from("#s1 .e1", { opacity: 0, y: 20, scaleX: 1.35, filter: "blur(8px)", duration: 1.4, ease: "power3.out" }, 0.9);
+      sc.from("#s1 .r1", { scaleX: 0, duration: 1.2, ease: "power3.inOut" }, 1.4);
+      sc.from("#s1 .line1", { opacity: 0, y: 40, filter: "blur(14px)", duration: 1.2, ease: "power3.out" }, 1.9);
+      sc.from("#s1 .line2", { opacity: 0, y: 50, filter: "blur(18px)", duration: 1.4, ease: "power3.out" }, 2.4);
+      sc.to("#s1 .center", { opacity: 0, y: -60, filter: "blur(12px)", duration: 0.8, ease: "power2.in" }, 4.4);
 
       // ---------- scene 2 ----------
-      tl.from("#s2 .n1", { opacity: 0, x: 220, filter: "blur(20px)", duration: 1.5, ease: "expo.out" }, 5.0);
-      tl.from("#s2 .amp", { opacity: 0, scale: 0.3, rotation: -40, duration: 1.3, ease: "back.out(1.8)" }, 5.6);
-      tl.from("#s2 .n2", { opacity: 0, x: -220, filter: "blur(20px)", duration: 1.5, ease: "expo.out" }, 6.0);
-      tl.from("#s2 .sub", { opacity: 0, scaleX: 1.35, filter: "blur(8px)", duration: 1.6, ease: "power3.out" }, 7.0);
-      tl.fromTo("#s2 .center", { scale: 1 }, { scale: 1.06, duration: 6, ease: "none" }, 5.0);
-      tl.to("#s2 .center", { opacity: 0, filter: "blur(14px)", duration: 0.8, ease: "power2.in" }, 10.4);
+      sc.from("#s2 .n1", { opacity: 0, x: 220, filter: "blur(20px)", duration: 1.5, ease: "expo.out" }, 5.0);
+      sc.from("#s2 .amp", { opacity: 0, scale: 0.3, rotation: -40, duration: 1.3, ease: "back.out(1.8)" }, 5.6);
+      sc.from("#s2 .n2", { opacity: 0, x: -220, filter: "blur(20px)", duration: 1.5, ease: "expo.out" }, 6.0);
+      sc.from("#s2 .sub", { opacity: 0, scaleX: 1.35, filter: "blur(8px)", duration: 1.6, ease: "power3.out" }, 7.0);
+      sc.fromTo("#s2 .center", { scale: 1 }, { scale: 1.06, duration: 6, ease: "none" }, 5.0);
+      sc.to("#s2 .center", { opacity: 0, filter: "blur(14px)", duration: 0.8, ease: "power2.in" }, 10.4);
 
       // ---------- scene 3 ----------
-      tl.from("#s3 .day", { opacity: 0, y: 30, duration: 1, ease: "power3.out" }, 11.0);
-      tl.from("#s3 .d1", { opacity: 0, y: 160, duration: 1.2, ease: "expo.out" }, 11.3);
-      tl.from("#s3 .sep", { scaleY: 0, duration: 1, ease: "power3.inOut" }, 11.5);
-      tl.from("#s3 .d2", { opacity: 0, y: -160, duration: 1.2, ease: "expo.out" }, 11.6);
-      tl.from("#s3 .year", { opacity: 0, scaleX: 1.35, filter: "blur(8px)", duration: 1.4, ease: "power3.out" }, 12.2);
-      tl.from("#s3 .r3", { scaleX: 0, duration: 1, ease: "power3.inOut" }, 12.6);
-      tl.from("#s3 .heb", { opacity: 0, y: 30, filter: "blur(10px)", duration: 1.1, ease: "power3.out" }, 13.0);
-      tl.to("#s3 .center", { opacity: 0, y: -60, filter: "blur(12px)", duration: 0.8, ease: "power2.in" }, 15.6);
+      sc.from("#s3 .day", { opacity: 0, y: 30, duration: 1, ease: "power3.out" }, 11.0);
+      sc.from("#s3 .d1", { opacity: 0, y: 160, duration: 1.2, ease: "expo.out" }, 11.3);
+      sc.from("#s3 .sep", { scaleY: 0, duration: 1, ease: "power3.inOut" }, 11.5);
+      sc.from("#s3 .d2", { opacity: 0, y: -160, duration: 1.2, ease: "expo.out" }, 11.6);
+      sc.from("#s3 .year", { opacity: 0, scaleX: 1.35, filter: "blur(8px)", duration: 1.4, ease: "power3.out" }, 12.2);
+      sc.from("#s3 .r3", { scaleX: 0, duration: 1, ease: "power3.inOut" }, 12.6);
+      sc.from("#s3 .heb", { opacity: 0, y: 30, filter: "blur(10px)", duration: 1.1, ease: "power3.out" }, 13.0);
+      sc.to("#s3 .center", { opacity: 0, y: -60, filter: "blur(12px)", duration: 0.8, ease: "power2.in" }, 15.6);
 
       // ---------- scene 4 ----------
-      tl.to("#s4 .pin .draw", { strokeDashoffset: 0, duration: 1.3, ease: "power2.inOut", stagger: 0.25 }, 16.2);
-      tl.from("#s4 .pin", { y: -40, duration: 1.2, ease: "bounce.out" }, 16.2);
-      tl.from("#s4 .eyebrow", { opacity: 0, duration: 0.8 }, 16.7);
-      tl.from("#s4 .venue", { opacity: 0, y: 50, filter: "blur(16px)", duration: 1.2, ease: "power3.out" }, 16.9);
-      tl.from("#s4 .addr", { opacity: 0, y: 30, duration: 1, ease: "power3.out" }, 17.4);
-      tl.from("#s4 .vsep", { scaleY: 0, duration: 0.9, ease: "power3.inOut" }, 18.0);
-      tl.from("#s4 .t", { opacity: 0, y: 50, duration: 1, ease: "power3.out", stagger: 0.25 }, 18.0);
-      tl.to("#s4 .center", { opacity: 0, filter: "blur(12px)", scale: 0.96, duration: 0.8, ease: "power2.in" }, 20.8);
+      sc.to("#s4 .pin .draw", { strokeDashoffset: 0, duration: 1.3, ease: "power2.inOut", stagger: 0.25 }, 16.2);
+      sc.from("#s4 .pin", { y: -40, duration: 1.2, ease: "bounce.out" }, 16.2);
+      sc.from("#s4 .eyebrow", { opacity: 0, duration: 0.8 }, 16.7);
+      sc.from("#s4 .venue", { opacity: 0, y: 50, filter: "blur(16px)", duration: 1.2, ease: "power3.out" }, 16.9);
+      sc.from("#s4 .addr", { opacity: 0, y: 30, duration: 1, ease: "power3.out" }, 17.4);
+      sc.from("#s4 .vsep", { scaleY: 0, duration: 0.9, ease: "power3.inOut" }, 18.0);
+      sc.from("#s4 .t", { opacity: 0, y: 50, duration: 1, ease: "power3.out", stagger: 0.25 }, 18.0);
+      sc.to("#s4 .center", { opacity: 0, filter: "blur(12px)", scale: 0.96, duration: 0.8, ease: "power2.in" }, 20.8);
 
       // ---------- scene 5 ----------
-      tl.to("#s5 .mono circle", { strokeDashoffset: 0, duration: 1.6, ease: "power2.inOut", stagger: 0.2 }, 21.3);
-      tl.fromTo("#s5 .mono svg", { rotation: -90 }, { rotation: 0, duration: 1.8, ease: "power2.out" }, 21.3);
-      tl.from("#s5 .m1", { opacity: 0, x: -60, duration: 1, ease: "power3.out" }, 21.9);
-      tl.from("#s5 .m2", { opacity: 0, x: 60, duration: 1, ease: "power3.out" }, 21.9);
-      tl.from("#s5 .bar", { scaleY: 0, duration: 0.9, ease: "power3.inOut" }, 22.0);
-      tl.from("#s5 .closing", { opacity: 0, y: 40, filter: "blur(14px)", duration: 1.2, ease: "power3.out" }, 22.6);
-      tl.from("#s5 .names-small", { opacity: 0, scaleX: 1.35, filter: "blur(8px)", duration: 1.2, ease: "power3.out" }, 23.1);
-      tl.from("#s5 .rsvp", { opacity: 0, y: 30, scale: 0.9, duration: 0.9, ease: "back.out(2)" }, 23.6);
-      tl.to("#s5 .rsvp", { boxShadow: "0 0 50px rgba(201,164,92,.45)", duration: 0.8, ease: "sine.inOut", yoyo: true, repeat: 1 }, 24.4);
+      sc.to("#s5 .mono circle", { strokeDashoffset: 0, duration: 1.6, ease: "power2.inOut", stagger: 0.2 }, 21.3);
+      sc.fromTo("#s5 .mono svg", { rotation: -90 }, { rotation: 0, duration: 1.8, ease: "power2.out" }, 21.3);
+      sc.from("#s5 .m1", { opacity: 0, x: -60, duration: 1, ease: "power3.out" }, 21.9);
+      sc.from("#s5 .m2", { opacity: 0, x: 60, duration: 1, ease: "power3.out" }, 21.9);
+      sc.from("#s5 .bar", { scaleY: 0, duration: 0.9, ease: "power3.inOut" }, 22.0);
+      sc.from("#s5 .closing", { opacity: 0, y: 40, filter: "blur(14px)", duration: 1.2, ease: "power3.out" }, 22.6);
+      sc.from("#s5 .names-small", { opacity: 0, scaleX: 1.35, filter: "blur(8px)", duration: 1.2, ease: "power3.out" }, 23.1);
+      sc.from("#s5 .rsvp", { opacity: 0, y: 30, scale: 0.9, duration: 0.9, ease: "back.out(2)" }, 23.6);
+      sc.to("#s5 .rsvp", { boxShadow: "0 0 50px rgba(201,164,92,.45)", duration: 0.8, ease: "sine.inOut", yoyo: true, repeat: 1 }, 24.4);
+
+      tl.add(sc, D);
 
       window.__timelines = window.__timelines || {};
       window.__timelines["main"] = tl;

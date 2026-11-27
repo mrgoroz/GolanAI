@@ -1,10 +1,10 @@
-"""Synthesise an original, gentle ambient piano/pad bed for the invitation video (26 s).
+"""Synthesise an original, gentle ambient piano/pad bed for the invitation video (32 s: 6 s envelope intro + 26 s invitation).
 Pure Python (no numpy). Output: assets/music_dry.wav -> ffmpeg adds reverb -> assets/music.m4a
 """
 import math, struct, wave, sys, os
 
 SR = 44100
-DUR = 26.0
+DUR = 32.0
 N = int(SR * DUR)
 L = [0.0] * N
 R = [0.0] * N
@@ -14,11 +14,12 @@ def hz(m):  # midi -> Hz
 
 # chord per scene (start, end, pad notes, arpeggio notes)
 CH = [
-    (0.0, 5.0,  [41, 53, 57, 60, 64], [65, 69, 72, 76, 72, 69]),   # Fmaj7
-    (5.0, 11.0, [40, 52, 55, 60, 67], [64, 67, 72, 74, 72, 67]),   # C/E
-    (11.0, 16.0,[38, 50, 57, 60, 65], [62, 65, 69, 72, 69, 65]),   # Dm7
-    (16.0, 21.0,[34, 46, 53, 57, 62], [62, 65, 69, 74, 69, 65]),   # Bbmaj7
-    (21.0, 26.0,[41, 53, 60, 67, 69], [65, 67, 69, 72, 77, 72]),   # Fadd9
+    (0.0, 6.0,  [41, 53, 60, 65],     []),                          # envelope intro: soft F pad only
+    (6.0, 11.0, [41, 53, 57, 60, 64], [65, 69, 72, 76, 72, 69]),   # Fmaj7
+    (11.0, 17.0,[40, 52, 55, 60, 67], [64, 67, 72, 74, 72, 67]),   # C/E
+    (17.0, 22.0,[38, 50, 57, 60, 65], [62, 65, 69, 72, 69, 65]),   # Dm7
+    (22.0, 27.0,[34, 46, 53, 57, 62], [62, 65, 69, 74, 69, 65]),   # Bbmaj7
+    (27.0, 32.0,[41, 53, 60, 67, 69], [65, 67, 69, 72, 77, 72]),   # Fadd9
 ]
 
 def add(i0, samples_l, samples_r):
@@ -44,7 +45,7 @@ step = 0.42
 for (s, e, _, arp) in CH:
     k = 0
     t0 = s + 0.15
-    while t0 < e - 0.05 and t0 < DUR - 1.5:
+    while arp and t0 < e - 0.05 and t0 < DUR - 1.5:
         m = arp[k % len(arp)]
         f = hz(m)
         a = int(t0 * SR)
@@ -62,9 +63,18 @@ for (s, e, _, arp) in CH:
         k += 1
         t0 += step
 
-# final sparkle chord at 21 s and long tail
+# envelope intro: soft chime as the seal breaks (2.0 s) and as the letter rises (3.7 s)
+for (t0, notes) in [(2.0, [84, 88, 91]), (3.7, [77, 81, 84, 89])]:
+    for j, m in enumerate(notes):
+        f = hz(m); a = int((t0 + j * 0.09) * SR)
+        for i in range(a, min(N, a + int(4 * SR))):
+            t = (i - a) / SR
+            v = 0.045 * min(1.0, t / 0.003) * math.exp(-t * 1.1) * (math.sin(2 * math.pi * f * t) + 0.2 * math.sin(4 * math.pi * f * t))
+            L[i] += v; R[i] += v
+
+# final sparkle chord at 27.2 s and long tail
 for m in [77, 81, 84, 89]:
-    f = hz(m); a = int((21.2 + (m - 77) * 0.01) * SR)
+    f = hz(m); a = int((27.2 + (m - 77) * 0.01) * SR)
     for i in range(a, N):
         t = (i - a) / SR
         v = 0.05 * math.exp(-t * 0.6) * math.sin(2 * math.pi * f * t)

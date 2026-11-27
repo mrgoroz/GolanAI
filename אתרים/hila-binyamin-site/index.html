@@ -33,28 +33,58 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 main{position:relative;z-index:1}
 
 /* ---------- envelope intro ---------- */
-#intro{position:fixed;inset:0;z-index:100;display:grid;place-items:center;overflow:hidden}
-#intro .half{position:absolute;top:0;bottom:0;width:50.5%;background:
-  radial-gradient(900px 700px at 100% 50%,#1d3a30 0%,rgba(16,36,29,0) 70%),linear-gradient(180deg,#0d1e19,#0a1613);
-  transition:transform 1.6s var(--ease)}
-#intro .half.r{right:0;border-left:1px solid var(--line)}
-#intro .half.l{left:0;border-right:1px solid var(--line);background:
-  radial-gradient(900px 700px at 0% 50%,#1d3a30 0%,rgba(16,36,29,0) 70%),linear-gradient(180deg,#0d1e19,#0a1613)}
-#intro.open .half.r{transform:translateX(100%)}
-#intro.open .half.l{transform:translateX(-100%)}
-#intro .seal-wrap{position:relative;z-index:2;text-align:center;transition:opacity .6s,transform .9s var(--ease)}
-#intro.open .seal-wrap{opacity:0;transform:scale(1.4)}
-.seal{width:190px;height:190px;border-radius:50%;margin:0 auto;position:relative;display:grid;place-items:center;
-  background:radial-gradient(circle at 35% 30%,#f6e2a8,#c9a45c 45%,#7d5f28 100%);
-  box-shadow:0 20px 60px rgba(0,0,0,.55),inset 0 -8px 20px rgba(0,0,0,.35),inset 0 6px 14px rgba(255,255,255,.35);
-  animation:pulse 2.6s ease-in-out infinite}
-.seal::before{content:"";position:absolute;inset:14px;border-radius:50%;border:2px dashed rgba(90,64,20,.55)}
-.seal span{font-family:var(--serif);font-size:64px;color:#4d3810;text-shadow:0 1px 0 rgba(255,240,200,.6);display:flex;gap:10px;align-items:center}
-.seal span i{width:2px;height:54px;background:rgba(77,56,16,.5)}
-@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.04)}}
-#intro .hint{margin-top:34px;font-size:17px;letter-spacing:.08em;color:var(--muted)}
-#intro .open-btn{margin-top:18px;padding:14px 40px;border:1px solid var(--g2);border-radius:999px;color:var(--g1);font-size:17px;letter-spacing:.08em;transition:.3s}
-#intro .open-btn:hover{background:rgba(201,164,92,.12);box-shadow:0 0 30px rgba(233,207,140,.25)}
+#intro{position:fixed;inset:0;z-index:100;display:grid;place-items:center;overflow:hidden;padding:32px 20px;
+  background:radial-gradient(ellipse at 50% 42%,#28493b 0%,#10271f 48%,#081611 100%);
+  transition:opacity .75s 2.5s ease}
+#intro::before{content:"";position:absolute;inset:20px;border:1px solid var(--line);pointer-events:none}
+#intro::after{content:"";position:absolute;inset:27px;border:1px solid rgba(233,207,140,.08);pointer-events:none}
+.intro-content{width:100%;position:relative;text-align:center}
+.intro-heading{color:var(--g1);font-family:var(--serif);font-weight:400;font-size:clamp(32px,6vw,48px);line-height:1.2}
+.intro-heading span{display:block;font-family:var(--sans);color:var(--muted);font-size:15px;letter-spacing:.12em;margin-bottom:10px}
+.envelope-scene{width:min(560px,84vw,76svh);margin:clamp(50px,11svh,100px) auto 0;perspective:1400px;position:relative}
+.envelope-scene::after{content:"";position:absolute;inset:auto 8% -12% 8%;height:20%;border-radius:50%;background:#030b08;filter:blur(24px);opacity:.55;z-index:-1}
+.envelope{display:block;width:100%;aspect-ratio:8/5;position:relative;text-align:center;isolation:isolate;cursor:pointer;
+  background:linear-gradient(145deg,#dbc9a9,#f6eddd 45%,#ddc9a8);border-radius:5px;
+  box-shadow:0 24px 64px #0005,inset 0 0 0 1px #f6e9cd;transition:transform .8s 2.15s var(--ease),opacity .65s 2.15s ease}
+.envelope-lining{position:absolute;inset:7px;border-radius:2px;background:repeating-linear-gradient(45deg,#c1a87122 0 1px,transparent 1px 12px),linear-gradient(#d6c29b,#eee1c9)}
+.invitation-card{position:absolute;inset:5% 7% 6%;z-index:1;background:#fffaf0;color:#233c30;border:1px solid #d6bf8c;
+  box-shadow:0 2px 12px #5b48241a;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
+  transition:transform .95s 1s var(--ease)}
+.invitation-card::before{content:"";position:absolute;inset:9px;border:1px solid #c9a45c66}
+.card-kicker{font-size:clamp(14px,2.3vw,16px);letter-spacing:.09em}
+.card-names{font-family:var(--serif);font-size:clamp(27px,6.8vw,48px);line-height:1.2}
+.card-date{font-family:var(--serif);font-size:clamp(20px,4vw,27px);color:#876b35;direction:ltr}
+.card-flourish{width:52px;height:1px;margin-top:8px;background:linear-gradient(90deg,transparent,#b1904d,transparent)}
+.envelope-front{position:absolute;inset:0;width:100%;height:100%;z-index:2;filter:drop-shadow(0 -1px 2px #69552c18);pointer-events:none}
+.envelope-flap{position:absolute;inset:0 0 auto;width:100%;height:70%;z-index:3;transform-origin:50% 0;
+  transform:rotateX(0deg);transition:transform 1.1s .2s cubic-bezier(.4,0,.2,1),z-index 0s .75s;pointer-events:none}
+.envelope-flap svg{width:100%;height:100%;display:block;overflow:visible;filter:drop-shadow(0 3px 2px #6e562a25)}
+.seal{width:clamp(78px,17vw,114px);aspect-ratio:1;position:absolute;top:57%;left:50%;z-index:4;translate:-50% -50%;display:grid;place-items:center;
+  border-radius:46% 54% 48% 52% / 51% 45% 55% 49%;border:1px solid #b38b42;
+  background:radial-gradient(ellipse at 31% 22%,#fae9b5 0%,#d9b86a 34%,#b78a3e 70%,#e4c27b 100%);
+  box-shadow:0 7px 13px #59401b50,inset 0 2px 3px #fff2ca,inset 0 -3px 5px #78501e70;
+  transition:opacity .4s ease,transform .6s var(--ease)}
+.seal::before,.seal::after{content:"";position:absolute;inset:9%;border-radius:50%;border:1px solid #89602588;box-shadow:0 1px 0 #fff0c588}
+.seal::after{inset:14%;border:1px dotted #89602580;box-shadow:none}
+.seal-monogram{font-family:var(--serif);font-size:clamp(32px,7.5vw,46px);color:#79521f;text-shadow:0 1px 0 #fff0c0b3;display:flex;gap:7px;align-items:center;line-height:1}
+.seal-monogram i{width:1px;height:.8em;background:#936c32;transform:rotate(18deg)}
+.intro-caption{margin-top:clamp(30px,6svh,54px)}
+#intro .hint{font-size:16px;letter-spacing:.06em;color:var(--muted)}
+#intro .open-btn{margin-top:16px;padding:12px 34px;border:1px solid #c9a45c99;border-radius:999px;color:var(--g1);font-size:17px;letter-spacing:.04em;transition:background .3s,box-shadow .3s}
+#intro .open-btn:hover{background:#c9a45c12;box-shadow:0 0 30px #e9cf8c20}
+#intro button:focus-visible{outline:2px solid var(--g1);outline-offset:7px}
+.intro-heading,.intro-caption{transition:opacity .4s ease,transform .6s var(--ease)}
+#intro.open{opacity:0;pointer-events:none}
+#intro.open .intro-heading,#intro.open .intro-caption{opacity:0;transform:translateY(8px)}
+#intro.open .seal{opacity:0;transform:translateY(-16px) rotate(-12deg) scale(1.06)}
+#intro.open .envelope-flap{transform:rotateX(178deg);z-index:0}
+#intro.open .invitation-card{transform:translateY(-47%)}
+#intro.open .envelope{transform:translateY(35px) scale(1.04);opacity:0}
+@media(max-height:520px) and (orientation:landscape){
+  #intro{padding:20px}.intro-heading{font-size:28px}.intro-heading span{display:none}
+  .envelope-scene{width:min(320px,56svh);margin-top:24px}.intro-caption{margin-top:16px}
+  #intro .hint{display:none}#intro .open-btn{margin-top:0;padding:8px 28px}
+}
 
 /* ---------- music toggle ---------- */
 #music-btn{position:fixed;top:18px;left:18px;z-index:50;width:48px;height:48px;border-radius:50%;border:1px solid var(--line);
@@ -213,19 +243,51 @@ footer .mono i{width:1px;height:46px;background:var(--g2)}
 <canvas id="confetti"></canvas>
 
 <!-- envelope intro -->
-<div id="intro" role="dialog" aria-label="פתיחת ההזמנה">
-  <div class="half r"></div><div class="half l"></div>
-  <div class="seal-wrap">
-    <div class="seal" aria-hidden="true"><span>ה<i></i>ב</span></div>
-    <div class="hint">הוזמנתם לחתונה</div>
-    <button class="open-btn" id="open-btn">פתחו את ההזמנה</button>
+<div id="intro" role="dialog" aria-modal="true" aria-labelledby="intro-title">
+  <div class="intro-content">
+    <h2 class="intro-heading" id="intro-title"><span>הזמנה שנשלחה באהבה</span>הילה &amp; בנימין</h2>
+    <div class="envelope-scene">
+      <button class="envelope" id="envelope-btn" aria-label="פתיחת המעטפה של הילה ובנימין">
+        <span class="envelope-lining" aria-hidden="true"></span>
+        <span class="invitation-card" aria-hidden="true">
+          <span class="card-kicker">בשמחה ובהתרגשות</span>
+          <span class="card-names">הילה &amp; בנימין</span>
+          <span class="card-date">10 · 06 · 2027</span>
+          <span class="card-flourish"></span>
+        </span>
+        <svg class="envelope-front" viewBox="0 0 560 350" preserveAspectRatio="none" aria-hidden="true">
+          <defs>
+            <linearGradient id="paper-left" x2="1" y2="1"><stop stop-color="#f3e9d7"/><stop offset="1" stop-color="#e4d3b5"/></linearGradient>
+            <linearGradient id="paper-right" x1="1" x2="0" y2="1"><stop stop-color="#f7efdf"/><stop offset="1" stop-color="#ddc9a7"/></linearGradient>
+            <linearGradient id="paper-bottom" x2="0" y2="1"><stop stop-color="#faf2e4"/><stop offset="1" stop-color="#eadbc2"/></linearGradient>
+          </defs>
+          <path d="M0 0 307 228 0 350Z" fill="url(#paper-left)"/>
+          <path d="M560 0 253 228 560 350Z" fill="url(#paper-right)"/>
+          <path d="M0 350 261 153Q280 139 299 153L560 350Z" fill="url(#paper-bottom)"/>
+          <path d="m0 350 261-197q19-14 38 0l261 197" fill="none" stroke="#fffaf0" stroke-opacity=".7"/>
+          <path d="M1 1v348h558V1" fill="none" stroke="#baa478" stroke-opacity=".35"/>
+        </svg>
+        <span class="envelope-flap" aria-hidden="true">
+          <svg viewBox="0 0 560 245" preserveAspectRatio="none">
+            <defs><linearGradient id="paper-flap" x2="0" y2="1"><stop stop-color="#f9f0e0"/><stop offset="1" stop-color="#e6d5b8"/></linearGradient></defs>
+            <path d="M0 0H560V13Q560 22 550 30L300 220Q280 236 260 220L10 30Q0 22 0 13Z" fill="url(#paper-flap)" stroke="#c9b58d" stroke-width="1"/>
+            <path d="M14 12H546M17 28 264 214Q280 227 296 214L543 28" fill="none" stroke="#c4a365" stroke-opacity=".5"/>
+          </svg>
+        </span>
+        <span class="seal" aria-hidden="true"><span class="seal-monogram">ה<i></i>ב</span></span>
+      </button>
+    </div>
+    <div class="intro-caption">
+      <p class="hint">יש הזמנות שפותחים עם הלב</p>
+      <button class="open-btn" id="open-btn">פתחו את ההזמנה</button>
+    </div>
   </div>
 </div>
 
-<button id="music-btn" aria-label="הפעלת מוזיקה"><span class="bars"><i></i><i></i><i></i><i></i></span></button>
+<button id="music-btn" aria-label="הפעלת מוזיקה" inert><span class="bars"><i></i><i></i><i></i><i></i></span></button>
 <audio id="music" src="assets/music.m4a" loop preload="auto"></audio>
 
-<main>
+<main inert>
   <!-- hero -->
   <header class="hero">
     <div class="frame"></div>
@@ -363,13 +425,28 @@ function setMusic(on){
   else { music.pause(); musicBtn.classList.remove('on'); }
 }
 musicBtn.onclick = () => setMusic(music.paused);
-$('#open-btn').onclick = () => {
-  $('#intro').classList.add('open');
-  document.body.classList.remove('locked');
-  setTimeout(()=>document.body.classList.add('ready'), 350);
-  setTimeout(()=>$('#intro').remove(), 1800);
+const intro = $('#intro');
+let opening = false;
+function openInvitation(){
+  if(opening) return;
+  opening = true;
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  intro.classList.add('open');
+  intro.querySelectorAll('button').forEach(button => button.disabled = true);
+  setTimeout(()=>document.body.classList.add('ready'), reducedMotion ? 0 : 2450);
+  setTimeout(()=>{
+    intro.remove();
+    document.body.classList.remove('locked');
+    $('main').inert = false;
+    musicBtn.inert = false;
+    const heading = $('.hero h1');
+    heading.tabIndex = -1;
+    heading.focus({preventScroll:true});
+  }, reducedMotion ? 0 : 3300);
   setMusic(true);
-};
+}
+$('#open-btn').onclick = openInvitation;
+$('#envelope-btn').onclick = openInvitation;
 
 /* ---------- gold sparkles background ---------- */
 (() => {
