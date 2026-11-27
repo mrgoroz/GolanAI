@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>הילה & בנימין — מתחתנים · 10.06.2027</title>
+<meta name="description" content="הילה ובנימין מתחתנים! יום חמישי, 10.06.2027, אחוזת הדקלים, קיסריה. אשרו הגעה באתר.">
+<meta name="theme-color" content="#0b1a16">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bellefair&family=Assistant:wght@200;300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0b1a16; --bg2:#10241d; --bg3:#163128;
+  --ivory:#f6efe3; --muted:#b9ad97; --line:rgba(233,207,140,.22);
+  --g1:#f3dfa8; --g2:#c9a45c; --g3:#8a6a2e;
+  --gold:linear-gradient(115deg,#8a6a2e 0%,#e9cf8c 22%,#fff3cf 38%,#c9a45c 55%,#f3dfa8 75%,#8a6a2e 100%);
+  --serif:'Bellefair',serif; --sans:'Assistant',sans-serif;
+  --ease:cubic-bezier(.2,.8,.2,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--bg);color:var(--ivory);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body.locked{overflow:hidden}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+::selection{background:var(--g2);color:var(--bg)}
+
+.gold-text{background:var(--gold);background-size:250% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shimmer 9s linear infinite}
+@keyframes shimmer{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+
+#sparkles{position:fixed;inset:0;z-index:0;pointer-events:none}
+main{position:relative;z-index:1}
+
+/* ---------- envelope intro ---------- */
+#intro{position:fixed;inset:0;z-index:100;display:grid;place-items:center;overflow:hidden}
+#intro .half{position:absolute;top:0;bottom:0;width:50.5%;background:
+  radial-gradient(900px 700px at 100% 50%,#1d3a30 0%,rgba(16,36,29,0) 70%),linear-gradient(180deg,#0d1e19,#0a1613);
+  transition:transform 1.6s var(--ease)}
+#intro .half.r{right:0;border-left:1px solid var(--line)}
+#intro .half.l{left:0;border-right:1px solid var(--line);background:
+  radial-gradient(900px 700px at 0% 50%,#1d3a30 0%,rgba(16,36,29,0) 70%),linear-gradient(180deg,#0d1e19,#0a1613)}
+#intro.open .half.r{transform:translateX(100%)}
+#intro.open .half.l{transform:translateX(-100%)}
+#intro .seal-wrap{position:relative;z-index:2;text-align:center;transition:opacity .6s,transform .9s var(--ease)}
+#intro.open .seal-wrap{opacity:0;transform:scale(1.4)}
+.seal{width:190px;height:190px;border-radius:50%;margin:0 auto;position:relative;display:grid;place-items:center;
+  background:radial-gradient(circle at 35% 30%,#f6e2a8,#c9a45c 45%,#7d5f28 100%);
+  box-shadow:0 20px 60px rgba(0,0,0,.55),inset 0 -8px 20px rgba(0,0,0,.35),inset 0 6px 14px rgba(255,255,255,.35);
+  animation:pulse 2.6s ease-in-out infinite}
+.seal::before{content:"";position:absolute;inset:14px;border-radius:50%;border:2px dashed rgba(90,64,20,.55)}
+.seal span{font-family:var(--serif);font-size:64px;color:#4d3810;text-shadow:0 1px 0 rgba(255,240,200,.6);display:flex;gap:10px;align-items:center}
+.seal span i{width:2px;height:54px;background:rgba(77,56,16,.5)}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.04)}}
+#intro .hint{margin-top:34px;font-size:17px;letter-spacing:.08em;color:var(--muted)}
+#intro .open-btn{margin-top:18px;padding:14px 40px;border:1px solid var(--g2);border-radius:999px;color:var(--g1);font-size:17px;letter-spacing:.08em;transition:.3s}
+#intro .open-btn:hover{background:rgba(201,164,92,.12);box-shadow:0 0 30px rgba(233,207,140,.25)}
+
+/* ---------- music toggle ---------- */
+#music-btn{position:fixed;top:18px;left:18px;z-index:50;width:48px;height:48px;border-radius:50%;border:1px solid var(--line);
+  background:rgba(11,26,22,.6);backdrop-filter:blur(10px);display:grid;place-items:center;transition:.3s}
+#music-btn:hover{border-color:var(--g2)}
+#music-btn .bars{display:flex;gap:3px;align-items:flex-end;height:18px}
+#music-btn .bars i{width:3px;background:var(--g1);border-radius:2px;height:4px;transition:height .3s}
+#music-btn.on .bars i{animation:eq 1s ease-in-out infinite}
+#music-btn.on .bars i:nth-child(2){animation-delay:.2s}#music-btn.on .bars i:nth-child(3){animation-delay:.4s}#music-btn.on .bars i:nth-child(4){animation-delay:.1s}
+@keyframes eq{0%,100%{height:4px}50%{height:18px}}
+
+/* ---------- hero ---------- */
+.hero{min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:90px 24px 120px;position:relative;
+  background:radial-gradient(1100px 800px at 50% 40%,#1d3a30 0%,rgba(16,36,29,0) 70%)}
+.hero .frame{position:absolute;inset:22px;border:1px solid var(--line);border-radius:22px;pointer-events:none}
+.hero .frame::after{content:"";position:absolute;inset:10px;border:1px solid rgba(233,207,140,.1);border-radius:16px}
+.eyebrow{font-size:clamp(15px,2.6vw,18px);letter-spacing:.08em;color:var(--muted);font-weight:300}
+.hero .ornament{width:220px;margin:0 auto 26px;display:block}
+.hero .ornament path{fill:none;stroke:var(--g2);stroke-width:1.6;stroke-dasharray:420;stroke-dashoffset:420}
+.ready .hero .ornament path{animation:draw 2.2s .5s var(--ease) forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+.names{font-family:var(--serif);font-weight:400;line-height:.95;margin:26px 0 10px;font-size:clamp(88px,23vw,200px);display:flex;flex-direction:column;align-items:center}
+.names .amp{font-weight:400;font-size:.55em;margin:.1em 0}
+.hero .date{font-family:var(--serif);font-size:clamp(26px,5vw,40px);letter-spacing:.06em;margin-top:18px;direction:ltr}
+.hero .date b{font-weight:400;color:var(--g1)}
+.hero .place{color:var(--muted);margin-top:6px;font-size:clamp(15px,2.6vw,18px)}
+.hero .cta{margin-top:38px}
+.scroll-cue{position:absolute;bottom:44px;left:50%;transform:translateX(-50%);width:26px;height:42px;border:1.5px solid var(--g2);border-radius:14px;opacity:.7}
+.scroll-cue::after{content:"";position:absolute;top:8px;left:50%;width:3px;height:8px;margin-left:-1.5px;border-radius:2px;background:var(--g1);animation:cue 1.8s infinite}
+@keyframes cue{0%{opacity:0;transform:translateY(0)}40%{opacity:1}100%{opacity:0;transform:translateY(14px)}}
+
+/* reveal-on-load for hero bits */
+.rise{opacity:0;transform:translateY(30px);filter:blur(10px);transition:opacity 1.2s var(--ease),transform 1.2s var(--ease),filter 1.2s var(--ease)}
+.ready .rise{opacity:1;transform:none;filter:none}
+.ready .rise.d1{transition-delay:.3s}.ready .rise.d2{transition-delay:.6s}.ready .rise.d3{transition-delay:.9s}.ready .rise.d4{transition-delay:1.2s}.ready .rise.d5{transition-delay:1.5s}
+
+/* scroll reveal */
+.reveal{opacity:0;transform:translateY(40px);transition:opacity 1s var(--ease),transform 1s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+
+/* ---------- buttons ---------- */
+.btn{display:inline-flex;align-items:center;gap:10px;padding:17px 44px;border-radius:999px;font-size:18px;font-weight:500;letter-spacing:.04em;transition:transform .3s var(--ease),box-shadow .3s,background .3s;position:relative;overflow:hidden}
+.btn-gold{background:linear-gradient(115deg,#b8914a,#f3dfa8 45%,#c9a45c);color:#1b140a;box-shadow:0 10px 40px rgba(201,164,92,.28)}
+.btn-gold::after{content:"";position:absolute;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.6),transparent);transform:skewX(-20deg);animation:sweep 3.6s infinite}
+@keyframes sweep{0%,60%{left:-60%}100%{left:130%}}
+.btn-gold:hover{transform:translateY(-3px);box-shadow:0 16px 50px rgba(201,164,92,.42)}
+.btn-ghost{border:1px solid var(--g2);color:var(--g1);padding:13px 28px;font-size:16px}
+.btn-ghost:hover{background:rgba(201,164,92,.1)}
+.btn svg{width:20px;height:20px}
+
+/* ---------- sections ---------- */
+section{padding:110px 22px;position:relative}
+.container{max-width:1040px;margin:0 auto}
+.sec-title{text-align:center;margin-bottom:56px}
+.sec-title h2{font-family:var(--serif);font-weight:400;font-size:clamp(40px,7vw,64px);line-height:1.1;margin-top:10px}
+.sec-title .rule{width:160px;height:1px;margin:24px auto 0;background:linear-gradient(90deg,transparent,var(--g1),transparent)}
+
+/* countdown */
+.countdown{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(10px,2.5vw,26px);max-width:820px;margin:0 auto;direction:rtl}
+.cd{position:relative;text-align:center;padding:clamp(20px,4vw,38px) 6px clamp(16px,3vw,26px);border-radius:22px;
+  background:linear-gradient(160deg,rgba(255,255,255,.06),rgba(255,255,255,.015));border:1px solid var(--line);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 20px 50px rgba(0,0,0,.25);backdrop-filter:blur(6px)}
+.cd .num{font-family:var(--serif);font-weight:400;font-size:clamp(40px,10vw,92px);line-height:1;display:block;direction:ltr;font-variant-numeric:tabular-nums}
+.cd .num.tick{animation:tick .6s var(--ease)}
+@keyframes tick{0%{transform:translateY(-14px);opacity:.2;filter:blur(4px)}100%{transform:none;opacity:1;filter:none}}
+.cd .lbl{display:block;margin-top:12px;font-size:clamp(12px,2.2vw,16px);letter-spacing:.14em;color:var(--muted)}
+.cd-note{text-align:center;margin-top:34px;color:var(--muted);font-size:16px}
+.cd-done{display:none;text-align:center;font-family:var(--serif);font-size:42px}
+
+/* details cards */
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.card{border-radius:26px;padding:42px 28px;text-align:center;border:1px solid var(--line);
+  background:linear-gradient(170deg,rgba(255,255,255,.055),rgba(255,255,255,.01));position:relative;overflow:hidden;transition:transform .5s var(--ease),border-color .4s}
+.card:hover{transform:translateY(-6px);border-color:rgba(233,207,140,.45)}
+.card::before{content:"";position:absolute;top:-60%;left:50%;width:300px;height:300px;margin-left:-150px;border-radius:50%;background:radial-gradient(circle,rgba(233,207,140,.12),transparent 70%);pointer-events:none}
+.card .ic{width:62px;height:62px;margin:0 auto 20px;border-radius:50%;display:grid;place-items:center;border:1px solid var(--line)}
+.card .ic svg{width:28px;height:28px;stroke:var(--g1);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.card h3{font-size:16px;font-weight:400;letter-spacing:.08em;color:var(--muted)}
+.card .big{font-family:var(--serif);font-size:clamp(34px,4.4vw,46px);line-height:1.15;margin:12px 0 6px}
+.card p{color:var(--ivory);opacity:.85}
+.card .actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:22px}
+
+/* schedule */
+.timeline{max-width:640px;margin:0 auto;position:relative;padding-right:0}
+.timeline::before{content:"";position:absolute;top:10px;bottom:10px;right:50%;width:1px;background:linear-gradient(180deg,transparent,var(--g2),transparent)}
+.tl-item{display:grid;grid-template-columns:1fr 60px 1fr;align-items:center;margin:28px 0}
+.tl-item .time{font-family:var(--serif);font-size:42px;text-align:left;direction:ltr;padding-left:6px}
+.tl-item .what{font-size:20px;text-align:right}
+.tl-item .what small{display:block;color:var(--muted);font-size:14px}
+.tl-item .dot{width:16px;height:16px;border-radius:50%;margin:auto;background:var(--g1);box-shadow:0 0 0 6px rgba(233,207,140,.12),0 0 24px rgba(233,207,140,.6)}
+/* keep times on the left column, text on the right in RTL grid */
+.tl-item .what{grid-column:1}.tl-item .dot{grid-column:2}.tl-item .time{grid-column:3}
+
+/* map */
+.map-wrap{margin-top:44px;border-radius:26px;overflow:hidden;border:1px solid var(--line);height:340px;filter:grayscale(.35) contrast(1.05) brightness(.9)}
+.map-wrap iframe{width:100%;height:100%;border:0}
+
+/* rsvp section */
+.rsvp-box{text-align:center;max-width:680px;margin:0 auto;padding:64px 28px;border-radius:32px;border:1px solid var(--line);
+  background:radial-gradient(600px 300px at 50% 0%,rgba(233,207,140,.12),transparent 70%),linear-gradient(170deg,rgba(255,255,255,.05),rgba(255,255,255,.01))}
+.rsvp-box p{color:var(--muted);margin:16px 0 34px;font-size:18px}
+.rsvp-status{margin-top:22px;color:var(--g1);min-height:1.6em}
+
+footer{text-align:center;padding:70px 20px 90px;color:var(--muted)}
+footer .mono{font-family:var(--serif);font-size:56px;display:inline-flex;gap:16px;align-items:center;width:140px;height:140px;justify-content:center;border:1px solid var(--line);border-radius:50%;margin-bottom:22px}
+footer .mono i{width:1px;height:46px;background:var(--g2)}
+
+/* ---------- modal ---------- */
+.modal{position:fixed;inset:0;z-index:80;display:grid;place-items:center;padding:18px;visibility:hidden;opacity:0;transition:opacity .4s,visibility .4s}
+.modal.show{visibility:visible;opacity:1}
+.modal .backdrop{position:absolute;inset:0;background:rgba(4,10,8,.72);backdrop-filter:blur(8px)}
+.sheet{position:relative;width:100%;max-width:520px;max-height:92svh;overflow:auto;border-radius:28px;padding:40px 30px 32px;
+  background:linear-gradient(170deg,#163128,#0d1f19);border:1px solid rgba(233,207,140,.3);box-shadow:0 30px 90px rgba(0,0,0,.6);
+  transform:translateY(30px) scale(.97);transition:transform .5s var(--ease)}
+.modal.show .sheet{transform:none}
+.sheet .close{position:absolute;top:16px;left:16px;width:40px;height:40px;border-radius:50%;border:1px solid var(--line);font-size:22px;line-height:1;color:var(--muted)}
+.sheet h3{font-family:var(--serif);font-weight:400;font-size:38px;text-align:center}
+.sheet .sub{text-align:center;color:var(--muted);margin-bottom:26px}
+.field{margin-bottom:18px}
+.field label{display:block;font-size:14px;color:var(--muted);margin-bottom:8px;letter-spacing:.04em}
+.field input,.field textarea{width:100%;padding:15px 18px;border-radius:14px;border:1px solid var(--line);background:rgba(0,0,0,.25);color:var(--ivory);font:inherit;font-size:17px;outline:none;transition:border-color .3s,box-shadow .3s}
+.field input:focus,.field textarea:focus{border-color:var(--g2);box-shadow:0 0 0 4px rgba(201,164,92,.15)}
+.field textarea{resize:vertical;min-height:80px}
+.field.err input{border-color:#e07a6a}
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.seg button{padding:15px;border-radius:14px;border:1px solid var(--line);font-size:17px;transition:.3s;background:rgba(0,0,0,.2)}
+.seg button.active{border-color:var(--g1);background:rgba(233,207,140,.14);color:var(--g1)}
+.stepper{display:flex;align-items:center;justify-content:space-between;border:1px solid var(--line);border-radius:14px;padding:6px;background:rgba(0,0,0,.2)}
+.stepper button{width:48px;height:48px;border-radius:10px;font-size:24px;color:var(--g1);transition:.2s}
+.stepper button:hover{background:rgba(233,207,140,.1)}
+.stepper output{font-family:var(--serif);font-size:30px}
+.guests-field{transition:opacity .3s,max-height .4s;max-height:140px;overflow:hidden}
+.guests-field.hide{opacity:0;max-height:0;margin:0}
+.sheet .btn{width:100%;justify-content:center;margin-top:8px}
+.success{display:none;text-align:center;padding:20px 0 10px}
+.success .check{width:96px;height:96px;margin:0 auto 22px}
+.success .check circle,.success .check path{fill:none;stroke:var(--g1);stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.success .check circle{stroke-dasharray:290;stroke-dashoffset:290;animation:draw 1s var(--ease) forwards}
+.success .check path{stroke-dasharray:60;stroke-dashoffset:60;animation:draw .6s .7s var(--ease) forwards}
+.success h3{margin-bottom:8px}
+.success p{color:var(--muted)}
+#confetti{position:fixed;inset:0;z-index:90;pointer-events:none}
+
+@media (max-width:820px){
+  .cards{grid-template-columns:1fr}
+  section{padding:84px 18px}
+  .tl-item .time{font-size:34px}
+  .tl-item{grid-template-columns:1fr 44px 1fr}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rise,.reveal{opacity:1;transform:none;filter:none}}
+</style>
+</head>
+<body class="locked">
+
+<canvas id="sparkles"></canvas>
+<canvas id="confetti"></canvas>
+
+<!-- envelope intro -->
+<div id="intro" role="dialog" aria-label="פתיחת ההזמנה">
+  <div class="half r"></div><div class="half l"></div>
+  <div class="seal-wrap">
+    <div class="seal" aria-hidden="true"><span>ה<i></i>ב</span></div>
+    <div class="hint">הוזמנתם לחתונה</div>
+    <button class="open-btn" id="open-btn">פתחו את ההזמנה</button>
+  </div>
+</div>
+
+<button id="music-btn" aria-label="הפעלת מוזיקה"><span class="bars"><i></i><i></i><i></i><i></i></span></button>
+<audio id="music" src="assets/music.m4a" loop preload="auto"></audio>
+
+<main>
+  <!-- hero -->
+  <header class="hero">
+    <div class="frame"></div>
+    <svg class="ornament" viewBox="0 0 220 40" aria-hidden="true"><path d="M5 20 C 50 20, 70 4, 110 20 C 150 36, 170 20, 215 20"/></svg>
+    <div class="eyebrow rise d1">בשעה טובה ומוצלחת · אנו שמחים להזמינכם לחתונתנו</div>
+    <h1 class="names rise d2"><span class="gold-text">הילה</span><span class="amp gold-text">&amp;</span><span class="gold-text">בנימין</span></h1>
+    <div class="date rise d3"><b>10</b> · <b>06</b> · <b>2027</b></div>
+    <div class="place rise d3">יום חמישי · ה׳ בסיוון התשפ״ז · אחוזת הדקלים, קיסריה</div>
+    <div class="cta rise d4"><button class="btn btn-gold" data-rsvp>אישור הגעה</button></div>
+    <a href="#countdown" class="scroll-cue rise d5" aria-label="גללו למטה"></a>
+  </header>
+
+  <!-- countdown -->
+  <section id="countdown">
+    <div class="container">
+      <div class="sec-title reveal"><div class="eyebrow">הספירה לאחור התחילה</div><h2 class="gold-text">עד שנגיד ״כן״</h2><div class="rule"></div></div>
+      <div class="countdown reveal" id="cd">
+        <div class="cd"><span class="num" id="cd-d">--</span><span class="lbl">ימים</span></div>
+        <div class="cd"><span class="num" id="cd-h">--</span><span class="lbl">שעות</span></div>
+        <div class="cd"><span class="num" id="cd-m">--</span><span class="lbl">דקות</span></div>
+        <div class="cd"><span class="num" id="cd-s">--</span><span class="lbl">שניות</span></div>
+      </div>
+      <div class="cd-done" id="cd-done"><span class="gold-text">היום הגדול הגיע! 💍</span></div>
+      <p class="cd-note reveal">יום חמישי, 10 ביוני 2027 · קבלת פנים בשעה 19:30</p>
+    </div>
+  </section>
+
+  <!-- details -->
+  <section id="details">
+    <div class="container">
+      <div class="sec-title reveal"><div class="eyebrow">כל הפרטים</div><h2 class="gold-text">מתי ואיפה</h2><div class="rule"></div></div>
+      <div class="cards">
+        <div class="card reveal">
+          <div class="ic"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></div>
+          <h3>התאריך</h3>
+          <div class="big gold-text">10.06.2027</div>
+          <p>יום חמישי · ה׳ בסיוון התשפ״ז</p>
+          <div class="actions">
+            <a class="btn btn-ghost" id="gcal" target="_blank" rel="noopener">Google Calendar</a>
+            <button class="btn btn-ghost" id="ics">הוספה ליומן</button>
+          </div>
+        </div>
+        <div class="card reveal">
+          <div class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
+          <h3>השעה</h3>
+          <div class="big gold-text">19:30</div>
+          <p>קבלת פנים · חופה וקידושין ב־20:30</p>
+        </div>
+        <div class="card reveal">
+          <div class="ic"><svg viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.6"/></svg></div>
+          <h3>המקום</h3>
+          <div class="big gold-text">אחוזת הדקלים</div>
+          <p>דרך הים 25, קיסריה</p>
+          <div class="actions">
+            <a class="btn btn-ghost" target="_blank" rel="noopener" href="https://waze.com/ul?q=%D7%93%D7%A8%D7%9A%20%D7%94%D7%99%D7%9D%2025%20%D7%A7%D7%99%D7%A1%D7%A8%D7%99%D7%94&navigate=yes">Waze</a>
+            <a class="btn btn-ghost" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=%D7%93%D7%A8%D7%9A%20%D7%94%D7%99%D7%9D%2025%20%D7%A7%D7%99%D7%A1%D7%A8%D7%99%D7%94">Google Maps</a>
+          </div>
+        </div>
+      </div>
+      <div class="map-wrap reveal">
+        <iframe loading="lazy" title="מפת המקום" src="https://maps.google.com/maps?q=%D7%A7%D7%99%D7%A1%D7%A8%D7%99%D7%94&z=13&output=embed"></iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- schedule -->
+  <section id="schedule">
+    <div class="container">
+      <div class="sec-title reveal"><div class="eyebrow">סדר הערב</div><h2 class="gold-text">כך זה ייראה</h2><div class="rule"></div></div>
+      <div class="timeline">
+        <div class="tl-item reveal"><div class="what">קבלת פנים<small>קוקטיילים ומוזיקה חיה</small></div><span class="dot"></span><div class="time gold-text">19:30</div></div>
+        <div class="tl-item reveal"><div class="what">חופה וקידושין<small>מתחת לשמי קיסריה</small></div><span class="dot"></span><div class="time gold-text">20:30</div></div>
+        <div class="tl-item reveal"><div class="what">ארוחת ערב<small>שף ותפריט חגיגי</small></div><span class="dot"></span><div class="time gold-text">21:15</div></div>
+        <div class="tl-item reveal"><div class="what">רוקדים עד הבוקר<small>DJ ורחבה פתוחה</small></div><span class="dot"></span><div class="time gold-text">22:00</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- rsvp -->
+  <section id="rsvp">
+    <div class="container">
+      <div class="rsvp-box reveal">
+        <div class="eyebrow">נשמח לדעת</div>
+        <h2 class="gold-text" style="font-family:var(--serif);font-weight:400;font-size:clamp(40px,7vw,60px);margin-top:10px">תגיעו לחגוג איתנו?</h2>
+        <p>אנא אשרו את הגעתכם עד 10.05.2027</p>
+        <button class="btn btn-gold" data-rsvp>אישור הגעה</button>
+        <div class="rsvp-status" id="rsvp-status"></div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="mono gold-text"><span class="gold-text">ה</span><i></i><span class="gold-text">ב</span></div>
+    <div style="font-family:var(--serif);font-size:26px;color:var(--ivory)">מחכים לראותכם</div>
+    <div style="margin-top:6px">הילה ובנימין · 10.06.2027</div>
+  </footer>
+</main>
+
+<!-- RSVP modal -->
+<div class="modal" id="modal" aria-hidden="true">
+  <div class="backdrop" data-close></div>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="rsvp-title">
+    <button class="close" data-close aria-label="סגירה">×</button>
+    <form id="rsvp-form" novalidate>
+      <h3 class="gold-text" id="rsvp-title">אישור הגעה</h3>
+      <div class="sub">החתונה של הילה ובנימין · 10.06.2027</div>
+      <div class="field" id="f-name"><label for="name">שם מלא</label><input id="name" autocomplete="name" placeholder="לדוגמה: ישראל ישראלי"></div>
+      <div class="field" id="f-phone"><label for="phone">טלפון</label><input id="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="050-0000000" dir="ltr" style="text-align:right"></div>
+      <div class="field"><label>האם תגיעו?</label>
+        <div class="seg" id="attend"><button type="button" class="active" data-v="yes">בטח שנגיע! 🥂</button><button type="button" data-v="no">לצערנו לא</button></div>
+      </div>
+      <div class="field guests-field" id="guests-field"><label>מספר מגיעים</label>
+        <div class="stepper"><button type="button" id="minus" aria-label="פחות">−</button><output id="guests">2</output><button type="button" id="plus" aria-label="יותר">+</button></div>
+      </div>
+      <div class="field"><label for="note">ברכה לזוג (לא חובה)</label><textarea id="note" placeholder="מזל טוב!"></textarea></div>
+      <button class="btn btn-gold" type="submit">שליחה</button>
+    </form>
+    <div class="success" id="success">
+      <svg class="check" viewBox="0 0 100 100"><circle cx="50" cy="50" r="46"/><path d="M30 52 l14 14 l26 -30"/></svg>
+      <h3 class="gold-text" id="success-title">תודה!</h3>
+      <p id="success-msg"></p>
+      <button class="btn btn-ghost" data-close style="margin-top:24px;width:auto">סגירה</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const WEDDING = new Date('2027-06-10T19:30:00+03:00');   // Israel summer time
+const $ = (s) => document.querySelector(s);
+
+/* ---------- intro / envelope ---------- */
+const music = $('#music'), musicBtn = $('#music-btn');
+function setMusic(on){
+  if(on){ music.volume = .55; music.play().then(()=>musicBtn.classList.add('on')).catch(()=>{}); }
+  else { music.pause(); musicBtn.classList.remove('on'); }
+}
+musicBtn.onclick = () => setMusic(music.paused);
+$('#open-btn').onclick = () => {
+  $('#intro').classList.add('open');
+  document.body.classList.remove('locked');
+  setTimeout(()=>document.body.classList.add('ready'), 350);
+  setTimeout(()=>$('#intro').remove(), 1800);
+  setMusic(true);
+};
+
+/* ---------- gold sparkles background ---------- */
+(() => {
+  const c = $('#sparkles'), x = c.getContext('2d');
+  let W, H, P = [];
+  const dpr = Math.min(2, window.devicePixelRatio || 1);
+  function size(){
+    W = c.width = innerWidth * dpr; H = c.height = innerHeight * dpr;
+    c.style.width = innerWidth + 'px'; c.style.height = innerHeight + 'px';
+    const n = Math.round(Math.min(70, innerWidth / 18));
+    P = Array.from({length:n}, () => ({x:Math.random()*W, y:Math.random()*H, r:(Math.random()**2.2*3+0.6)*dpr, vy:-(Math.random()*.25+.05)*dpr, vx:(Math.random()-.5)*.15*dpr, ph:Math.random()*6.28}));
+  }
+  size(); addEventListener('resize', size);
+  (function loop(t){
+    x.clearRect(0,0,W,H);
+    for(const p of P){
+      p.x += p.vx; p.y += p.vy; if(p.y < -10){ p.y = H + 10; p.x = Math.random()*W; }
+      const a = .35 + .35*Math.sin(t/900 + p.ph);
+      const g = x.createRadialGradient(p.x,p.y,0,p.x,p.y,p.r*4);
+      g.addColorStop(0,`rgba(255,236,190,${a})`); g.addColorStop(1,'rgba(233,207,140,0)');
+      x.fillStyle = g; x.beginPath(); x.arc(p.x,p.y,p.r*4,0,6.28); x.fill();
+    }
+    requestAnimationFrame(loop);
+  })(0);
+})();
+
+/* ---------- countdown ---------- */
+const pad = (n) => String(n).padStart(2,'0');
+const last = {};
+function setNum(id, v){
+  const el = document.getElementById(id);
+  if(last[id] === v) return;
+  last[id] = v; el.textContent = v;
+  el.classList.remove('tick'); void el.offsetWidth; el.classList.add('tick');
+}
+function tick(){
+  let diff = WEDDING - new Date();
+  if(diff <= 0){ $('#cd').style.display='none'; $('#cd-done').style.display='block'; return; }
+  const d = Math.floor(diff/864e5); diff -= d*864e5;
+  const h = Math.floor(diff/36e5);  diff -= h*36e5;
+  const m = Math.floor(diff/6e4);   diff -= m*6e4;
+  const s = Math.floor(diff/1e3);
+  setNum('cd-d', String(d)); setNum('cd-h', pad(h)); setNum('cd-m', pad(m)); setNum('cd-s', pad(s));
+}
+tick(); setInterval(tick, 1000);
+
+/* ---------- scroll reveal ---------- */
+const io = new IntersectionObserver((es) => es.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } }), {threshold:.15});
+document.querySelectorAll('.reveal').forEach((el,i) => { el.style.transitionDelay = (i%3)*.12 + 's'; io.observe(el); });
+
+/* ---------- calendar ---------- */
+const title = 'החתונה של הילה ובנימין', loc = 'אחוזת הדקלים, דרך הים 25, קיסריה';
+$('#gcal').href = 'https://calendar.google.com/calendar/render?action=TEMPLATE&text=' + encodeURIComponent(title) +
+  '&dates=20270610T163000Z/20270610T230000Z&location=' + encodeURIComponent(loc) + '&details=' + encodeURIComponent('מחכים לראותכם!');
+$('#ics').onclick = () => {
+  const ics = ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Hila&Binyamin//HE','BEGIN:VEVENT','UID:hila-binyamin-20270610','DTSTAMP:20261127T000000Z',
+    'DTSTART:20270610T163000Z','DTEND:20270610T230000Z','SUMMARY:'+title,'LOCATION:'+loc,'DESCRIPTION:מחכים לראותכם!','END:VEVENT','END:VCALENDAR'].join('\r\n');
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([ics],{type:'text/calendar'})); a.download = 'hila-binyamin-wedding.ics'; a.click();
+};
+
+/* ---------- RSVP modal ---------- */
+const modal = $('#modal'), form = $('#rsvp-form'), success = $('#success');
+let attending = 'yes', guests = 2;
+function openModal(){ form.style.display=''; success.style.display='none'; modal.classList.add('show'); modal.setAttribute('aria-hidden','false'); setTimeout(()=>$('#name').focus(),300); }
+function closeModal(){ modal.classList.remove('show'); modal.setAttribute('aria-hidden','true'); }
+document.querySelectorAll('[data-rsvp]').forEach(b => b.onclick = openModal);
+modal.addEventListener('click', e => { if(e.target.closest('[data-close]')) closeModal(); });
+addEventListener('keydown', e => { if(e.key === 'Escape') closeModal(); });
+$('#attend').addEventListener('click', e => {
+  const b = e.target.closest('button'); if(!b) return;
+  attending = b.dataset.v;
+  $('#attend').querySelectorAll('button').forEach(x => x.classList.toggle('active', x === b));
+  $('#guests-field').classList.toggle('hide', attending === 'no');
+});
+$('#minus').onclick = () => { guests = Math.max(1, guests-1); $('#guests').textContent = guests; };
+$('#plus').onclick  = () => { guests = Math.min(12, guests+1); $('#guests').textContent = guests; };
+form.onsubmit = (e) => {
+  e.preventDefault();
+  const name = $('#name').value.trim(), phone = $('#phone').value.replace(/[^\d+]/g,'');
+  $('#f-name').classList.toggle('err', name.length < 2);
+  $('#f-phone').classList.toggle('err', phone.length < 9);
+  if(name.length < 2 || phone.length < 9) return;
+  const entry = {name, phone, attending, guests: attending==='yes'?guests:0, note: $('#note').value.trim(), at: new Date().toISOString()};
+  // Demo site: the response is stored locally in the browser. Connect to a backend / Google Sheet for production.
+  const all = JSON.parse(localStorage.getItem('rsvp-hila-binyamin') || '[]'); all.push(entry);
+  localStorage.setItem('rsvp-hila-binyamin', JSON.stringify(all));
+  form.style.display = 'none'; success.style.display = 'block';
+  const first = name.split(' ')[0];
+  if(attending === 'yes'){
+    $('#success-title').textContent = `תודה ${first}!`;
+    $('#success-msg').textContent = `אישרתם הגעה של ${guests} ${guests===1?'אורח':'אורחים'}. מחכים לחגוג איתכם 💛`;
+    $('#rsvp-status').textContent = `✓ ${first}, הגעתכם אושרה (${guests})`;
+    confetti();
+  } else {
+    $('#success-title').textContent = `תודה ${first}`;
+    $('#success-msg').textContent = 'חבל שלא תוכלו להגיע — נחגוג איתכם בהזדמנות אחרת.';
+    $('#rsvp-status').textContent = `✓ ${first}, תשובתכם נשמרה`;
+  }
+};
+
+/* ---------- gold confetti ---------- */
+function confetti(){
+  const c = $('#confetti'), x = c.getContext('2d');
+  c.width = innerWidth; c.height = innerHeight;
+  const cols = ['#f3dfa8','#c9a45c','#fff3cf','#e9cf8c','#f6efe3'];
+  const P = Array.from({length:160}, () => ({x:innerWidth/2, y:innerHeight*.45, vx:(Math.random()-.5)*16, vy:-Math.random()*16-4, s:Math.random()*8+4, r:Math.random()*6, vr:(Math.random()-.5)*.3, c:cols[Math.random()*cols.length|0], life:0}));
+  (function f(){
+    x.clearRect(0,0,c.width,c.height); let alive = 0;
+    for(const p of P){
+      p.vy += .35; p.vx *= .99; p.x += p.vx; p.y += p.vy; p.r += p.vr; p.life++;
+      if(p.y < c.height + 20){ alive++;
+        x.save(); x.translate(p.x,p.y); x.rotate(p.r); x.globalAlpha = Math.max(0, 1 - p.life/170);
+        x.fillStyle = p.c; x.fillRect(-p.s/2,-p.s/4,p.s,p.s/2); x.restore(); }
+    }
+    if(alive && P[0].life < 180) requestAnimationFrame(f); else x.clearRect(0,0,c.width,c.height);
+  })();
+}
+</script>
+</body>
+</html>
